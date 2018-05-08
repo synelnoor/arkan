@@ -50,7 +50,9 @@ class BarangController extends AppBaseController
         $kategori= Category::all();
         $toko = Toko::all();
         $def[''] = 'Please Select';
-        $barcode = count(Barang::whereNull('deleted_at'))+1;
+        $barcode = count(Barang::all())+1;
+        //$barcode = count(Barang::all());
+
         $barang = '';
         $action='create';
         //dd($barcode);

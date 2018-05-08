@@ -335,7 +335,8 @@ class OrderController extends AppBaseController
       public function autoComplete(Request $request) {
                  $query = $request->get('term','');
                  //dd($query);
-                $items=Barang::where('nama_barang','LIKE','%'.$query.'%')->get();
+                $items=Barang::where('nama_barang','LIKE','%'.$query.'%')
+                             ->whereNull('deleted_at')->get();
                 //dd($items);
                 $data=array();
                 foreach ($items as $item) {
@@ -357,7 +358,7 @@ class OrderController extends AppBaseController
             }
 
 
-             public function itemout_code() {
+    public function itemout_code() {
           $query = '';
                 
           // $items= Itemout::where('deleted_at','null')->get();

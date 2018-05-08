@@ -176,7 +176,8 @@ $listinitems = json_encode(@$data);
                         success: function(data) {
                             response($.map(data,function(item){
                               return{
-                                value:item.value,
+                                value:item.value+","+item.code_barang,
+                                nama_barang:item.value,
                                 id:item.id,
                                 harga_jual:item.harga_jual,
                                 harga_beli:item.harga_beli,
@@ -193,7 +194,8 @@ $listinitems = json_encode(@$data);
                 if(ui.item){
                   $this=$(this);
                 //console.log($this.parents('.trbody').find('.form-control.barang_id'))
-                  $this.val(ui.item.value);
+                  $this.val(ui.item.nama_barang);
+                  //$this.parents('.trbody').find('.nama_barang > input').val(ui.item.value);
                   $this.parents('.trbody').find('.code_barang > input').val(ui.item.code_barang);
                   $this.parents('.trbody').find('.form-control.barang_id').val(ui.item.id);
                   $this.parents('.trbody').find('.harga > input').val(ui.item.harga_jual);
