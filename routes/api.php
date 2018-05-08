@@ -17,15 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+Route::resource('barangs', 'BarangAPIController');
+Route::resource('orders', 'OrderAPIController');
+Route::resource('orderItems', 'OrderItemAPIController');
 Route::resource('pembayarans', 'PembayaranAPIController');
-
-Route::resource('purchasings', 'purchasingAPIController');
-
 Route::resource('purchases', 'PurchaseAPIController');
-
-Route::resource('ajas', 'ajaAPIController');
-
 Route::resource('categories', 'CategoryAPIController');
-
 Route::resource('tokos', 'TokoAPIController');
