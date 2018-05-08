@@ -17,6 +17,8 @@ class BarangDataTable extends DataTable
         return $this->datatables
             ->eloquent($this->query())
             ->addColumn('action', 'admin.barangs.datatables_actions')
+            ->editColumn('toko_id','{{$toko["name"]}}')
+            ->editColumn('kategori_id','{{$kategori["name"]}}')
             ->make(true);
     }
 
@@ -27,7 +29,8 @@ class BarangDataTable extends DataTable
      */
     public function query()
     {
-        $barangs = Barang::query()->with('kategori')->with('toko');
+        $barangs = Barang::with('kategori')->with('toko');
+        //$barangs = Barang::query();
 
         return $this->applyScopes($barangs);
     }
@@ -75,9 +78,9 @@ class BarangDataTable extends DataTable
             'nama_barang' => ['name' => 'nama_barang', 'data' => 'nama_barang'],
             'harga_beli' => ['name' => 'harga_beli', 'data' => 'harga_beli'],
             'harga_jual' => ['name' => 'harga_jual', 'data' => 'harga_jual'],
-            'code_barang' => ['name' => 'code_barang', 'data' => 'code_barang']
-            // 'toko'  =>['name' => 'toko_id', 'data' => 'toko_id'],
-            // 'kategori'=['name' =>'kategori_id', 'data'=>'kategori_id']
+            'code_barang' => ['name' => 'code_barang', 'data' => 'code_barang'],
+            'toko'  =>['name' => 'toko_id', 'data' => 'toko_id'],
+            'kategori'=> ['name' =>'kategori_id', 'data'=>'kategori_id']
         ];
     }
 

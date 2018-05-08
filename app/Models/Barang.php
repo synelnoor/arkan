@@ -58,11 +58,11 @@ class Barang extends Model
 
     public function kategori()
     {
-        return $this->belongsTo('App\ModelsCategory','id','kategori_id');
+        return $this->belongsTo('App\Models\Category','kategori_id','id');
     }
     
     public function toko()
     {
-        return $this->belongsTo('App\ModelsToko','id','toko_id');
+        return $this->belongsTo('App\Models\Toko','toko_id','id');
     }
 }

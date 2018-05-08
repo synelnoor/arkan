@@ -77,7 +77,7 @@ class OrderController extends AppBaseController
 // dd($input);
         $order = $this->orderRepository->create($input);
         $barang= Barang::where('id',$request->id);
-       // dd($request['row']);
+// dd($request['row']);
          foreach($request['row'] as $item) {
             $dataOrderItem = array(
                 'order_id'=>$order->id,
@@ -88,6 +88,8 @@ class OrderController extends AppBaseController
                 'harga' =>$item['harga'],
                 'harga_beli' =>$item['harga_beli'],
                 'subtotal' => $item['subtotal'],
+                'toko_id' => $item['toko_id'],
+                'kategori_id' => $item['kategori_id'],
                 'laba' => $item['laba']
                
             );
@@ -158,6 +160,8 @@ class OrderController extends AppBaseController
                         'harga'=>$item['harga'],
                         'harga_beli' =>$item['harga_beli'],
                         'subtotal'=>$item['subtotal'],
+                        'toko_id' => $item['toko_id'],
+                        'kategori_id' => $item['kategori_id'],
                         'laba' => $item['laba']
                         );
         }
@@ -212,6 +216,8 @@ class OrderController extends AppBaseController
                 'harga' =>$item['harga'],
                 'harga_beli' =>$item['harga_beli'],
                 'subtotal' => $item['subtotal'],
+                'toko_id' => $item['toko_id'],
+                'kategori_id' => $item['kategori_id'],
                 'laba' => $item['laba']
                
             );
@@ -333,7 +339,15 @@ class OrderController extends AppBaseController
                 //dd($items);
                 $data=array();
                 foreach ($items as $item) {
-                        $data[]=array('value'=>$item->nama_barang,'id'=>$item->id,'harga_jual'=>$item->harga_jual,'harga_beli'=>$item->harga_beli,'code_barang'=>$item->code_barang);
+                        $data[]=array(
+                                'value'         => $item->nama_barang,
+                                'id'            => $item->id,
+                                'harga_jual'    => $item->harga_jual,
+                                'harga_beli'    => $item->harga_beli,
+                                'code_barang'   => $item->code_barang,
+                                'toko_id'       => $item->toko_id,
+                                'kategori_id'   => $item->kategori_id
+                                );
                 }
                 //dd($data);
                 if(count($data))

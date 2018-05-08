@@ -82,7 +82,7 @@ class Category extends Model
 
     public function barang()
     {
-        return $this->hasMany('App\Barang');
+        return $this->hasMany('App\Models\Barang');
     }
     
 }

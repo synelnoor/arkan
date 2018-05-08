@@ -74,6 +74,12 @@
             <td class="laba" style="display:none">
               <input type="hidden" name="row[0][laba]" class="form-control laba" id="laba">
             </td>
+            <td class="toko_id" style="display:none">
+              <input type="hidden" name="row[0][toko_id]" class="form-control toko_id search_text" id="toko_id">
+            </td>
+            <td class="kategori_id" style="display:none">
+              <input type="hidden" name="row[0][kategori_id]" class="form-control kategori_id search_text" id="kategori_id">
+            </td>
               <button type='button' id="testbtn" name='test' class='btn btn-danger btn-xs test' style="display:none;">
                 <i class='fa fa-trash'></i></button>
             </td>
@@ -174,8 +180,9 @@ $listinitems = json_encode(@$data);
                                 id:item.id,
                                 harga_jual:item.harga_jual,
                                 harga_beli:item.harga_beli,
-                                code_barang:item.code_barang
-
+                                code_barang:item.code_barang,
+                                toko_id:item.toko_id,
+                                kategori_id:item.kategori_id
                               }
                             }));
                           },
@@ -191,6 +198,8 @@ $listinitems = json_encode(@$data);
                   $this.parents('.trbody').find('.form-control.barang_id').val(ui.item.id);
                   $this.parents('.trbody').find('.harga > input').val(ui.item.harga_jual);
                   $this.parents('.trbody').find('.harga_beli > input').val(ui.item.harga_beli);
+                  $this.parents('.trbody').find('.toko_id > input').val(ui.item.toko_id);
+                  $this.parents('.trbody').find('.kategori_id > input').val(ui.item.kategori_id);
                   // $('.form-control.item_id').val(ui.item.id);
                    // $this('.form-control.item_id').val(ui.item.id);
                    //$this.parents('.trbody').find('.item_id > input').val(ui.item.id);
@@ -226,6 +235,8 @@ $listinitems = json_encode(@$data);
        html_code += "<td ' class='harga_beli' style='display:none' ><input type='hidden' name='row["+count+"][harga_beli]' class='form-control harga_beli' id='harga_beli' readonly/></td>";
        html_code += "<td ' class='subtotal' ><input type='text' name='row["+count+"][subtotal]' class='form-control subtotal' id='subtotal' readonly/></td>";
        html_code += "<td ' class='laba' style='display:none'  ><input type='hidden' name='row["+count+"][laba]' class='form-control laba' id='laba' readonly/></td>";
+       html_code += "<td ' class='toko_id' style='display:none'  ><input type='hidden' name='row["+count+"][toko_id]' class='form-control toko_id search_text' id='toko_id' readonly/></td>";
+       html_code += "<td ' class='kategori_id' style='display:none'  ><input type='hidden' name='row["+count+"][kategori_id]' class='form-control kategori_id search_text' id='kategori_id' readonly/></td>";
        html_code += "<td><button type='button' name='remove' data-row='row"+count+"' class='btn btn-danger btn-xs remove'>-</button></td>";   
        html_code += "</tr>";  
        $('#crud_table').append(html_code);
@@ -319,7 +330,9 @@ $listinitems = json_encode(@$data);
        html_code += "<td ' class='harga' ><input type='text' name='row["+count+"][harga]' class='form-control harga search_text' id='harga' readonly/></td>";
        html_code += "<td ' class='harga_beli' style='display:none'  ><input type='hidden' name='row["+count+"][harga_beli]' class='form-control harga_beli' id='harga_beli' readonly/></td>";
        html_code += "<td ' class='subtotal' ><input type='text' name='row["+count+"][subtotal]' class='form-control subtotal' id='subtotal' readonly/></td>";
-        html_code += "<td ' class='laba' style='display:none'  ><input type='hidden' name='row["+count+"][laba]' class='form-control laba' id='laba' readonly/></td>";
+       html_code += "<td ' class='laba' style='display:none'  ><input type='hidden' name='row["+count+"][laba]' class='form-control laba' id='laba' readonly/></td>";
+       html_code += "<td ' class='toko_id' style='display:none'  ><input type='hidden' name='row["+count+"][toko_id]' class='form-control toko_id search_tex' id='toko_id' readonly/></td>";
+       html_code += "<td ' class='kategori_id' style='display:none'  ><input type='hidden' name='row["+count+"][kategori_id]' class='form-control kategori_id search_tex' id='kategori_id' readonly/></td>";
        html_code += "<td><button type='button' name='remove' data-row='row"+count+"' class='btn btn-danger btn-xs remove'>-</button></td>";   
        html_code += "</tr>";  
        $('#crud_table').append(html_code);
@@ -342,9 +355,11 @@ $listinitems = json_encode(@$data);
             $("input[name='row["+i+"][code_barang]']").val(details[i]['code_barang']);
             $("input[name='row["+i+"][qty]']").val(details[i]['qty']);
             $("input[name='row["+i+"][harga]']").val(details[i]['harga']);
-             $("input[name='row["+i+"][harga_beli]']").val(details[i]['harga_beli']);
+            $("input[name='row["+i+"][harga_beli]']").val(details[i]['harga_beli']);
             $("input[name='row["+i+"][subtotal]']").val(details[i]['subtotal']);
             $("input[name='row["+i+"][laba]']").val(details[i]['laba']);
+            $("input[name='row["+i+"][toko_id]']").val(details[i]['toko_id']);
+            $("input[name='row["+i+"][kategori_id]']").val(details[i]['kategori_id']);
             $("input[name='row["+i+"][order_id]']").val(details[i]['order_id']);
             //$("input[name='row["+i+"][total_individual]']").val(details[i]['unit_price']*details[i]['qty']);
         }

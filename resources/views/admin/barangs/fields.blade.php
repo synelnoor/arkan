@@ -16,32 +16,58 @@
     {!! Form::number('harga_jual', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Code Barang Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('code_barang', 'Code Barang:') !!}
-    {!! Form::text('code_barang', null, ['class' => 'form-control code']) !!}
-</div>
-
-
-<!-- kategori_id -->
-<div class="form-group col-sm-6">
-    {!! Form::label('kategori_id','Kategori :') !!}
-    {!! Form::select('kategori_id',$kategori->pluck('name','id'),null, ['class' => 'form-control select2']) !!}
-</div>
+@if($action === 'edit')
 <!-- toko_id -->
 <div class="form-group col-sm-6">
      {!! Form::label('toko_id','Toko :') !!}
     <!-- {!! Form::select('toko_id',$toko->pluck('name','id'),null, ['class' => 'form-control toko']) !!} -->
+    <select name="toko_id" class="form-control toko" id="toko_id">
+            <option value="{{$barang->toko->id}}">{{ $barang->toko->name }}</option>
+            @foreach($toko as $tokos)
+            <option value="{{ $tokos->id }}">{{ $tokos->name }}</option>
+            @endforeach
+    </select>
+</div>
+@else
+<!-- toko_id -->
+<div class="form-group col-sm-6">
+     {!! Form::label('toko_id','Toko :') !!}
     <select name="toko_id" class="form-control toko" id="toko_id">
             <option selected disabled>Please select one option</option>
             @foreach($toko as $tokos)
             <option value="{{ $tokos->id }}">{{ $tokos->name }}</option>
             @endforeach
     </select>
-    
-
 </div>
+@endif
 
+
+
+@if($action ==='edit')
+<!-- kategori_id -->
+
+<div class="form-group col-sm-6">
+    {!! Form::label('kategori_id','Kategori :') !!}
+    <select name="kategori_id" class="form-control kategori" id="kategori_id">
+            {{--<option value="{{$barang->kategori->id}}">{{$barang->kategori->name}}</option>--}}
+            @foreach($kategori as $kategoris)
+            <option value="{{ $kategoris->id }}">{{ $kategoris->name }}</option>
+            @endforeach
+    </select>
+</div>
+@else
+<!-- kategori_id -->
+<div class="form-group col-sm-6">
+    {!! Form::label('kategori_id','Kategori :') !!}
+    {!! Form::select('kategori_id',$kategori->pluck('name','id'),null, ['class' => 'form-control kategori']) !!}
+</div>
+@endif
+
+<!-- Code Barang Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('code_barang', 'Code Barang:') !!}
+    {!! Form::text('code_barang', null, ['class' => 'form-control code','readonly']) !!}
+</div>
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
@@ -49,21 +75,82 @@
     <a href="{!! route('barangs.index') !!}" class="btn btn-default">Cancel</a>
 </div>
 
+
 @section('scripts')
 <script>
     $(document).on('change',function(){
-        var toko = $('.form-control.toko').val();
+        var action = '{!! @$action!!}';
+        if(action === 'create')
+        {
+
+                var conbar = {!! @$barcode !!};
+                console.log('count'+conbar)
+                var toko = $('.form-control.toko').val();
+                
+                console.log(toko);
+                if(toko === '1')
+                {
+                    var kat = $('.form-control.kategori').val();
+                    if(kat === '1'){
+                        console.log('saung');
+                    $('.form-control.code').val('SCA0'+conbar);
+                    }
+                    if(kat === '2'){
+                        console.log('saung');
+                    $('.form-control.code').val('SCI0'+conbar);
+                    }
+                    
+                }
+                if(toko ==='2')
+                {
+                    var kat = $('.form-control.kategori').val();
+                    if(kat === '1'){
+                        console.log('mi');
+                    $('.form-control.code').val('MABA0'+conbar);
+                    }
+                    if(kat === '2'){
+                        console.log('mi');
+                    $('.form-control.code').val('MABI0'+conbar);
+                    }
+                    
+                }
+        }
+
+        if(action === 'edit')
+        {
+            var conbar = $('.form-control.code_barang')
+                console.log('count'+conbar)
+                var toko = $('.form-control.toko').val();
+                
+                console.log(toko);
+                if(toko === '1')
+                {
+                    var kat = $('.form-control.kategori').val();
+                    if(kat === '1'){
+                        console.log('saung');
+                    $('.form-control.code').val(conbar);
+                    }
+                    if(kat === '2'){
+                        console.log('saung');
+                    $('.form-control.code').val(conbar);
+                    }
+                    
+                }
+                if(toko ==='2')
+                {
+                    var kat = $('.form-control.kategori').val();
+                    if(kat === '1'){
+                        console.log('mi');
+                    $('.form-control.code').val(conbar);
+                    }
+                    if(kat === '2'){
+                        console.log('mi');
+                    $('.form-control.code').val(conbar);
+                    }
+                    
+                }
+        }
         
-        console.log(toko);
-        if(toko === '1')
-        {
-            console.log('true');
-            $('.form-control.code').val('SC');
-        }
-        if(toko ==='2')
-        {
-            $('.form-control.code').val('MAB');
-        }
        
 
     });

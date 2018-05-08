@@ -23,7 +23,9 @@ class BarangRepository extends BaseRepository
         'nama_barang',
         'harga_beli',
         'harga_jual',
-        'code_barang'
+        'code_barang',
+        'kategori_id',
+        'toko_id'
     ];
 
     /**

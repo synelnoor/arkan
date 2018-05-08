@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\aja;
+use App\Models\OrderItem;
 use InfyOm\Generator\Request\APIRequest;
 
-class UpdateajaAPIRequest extends APIRequest
+class UpdateOrderItemAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,6 @@ class UpdateajaAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return aja::$rules;
+        return OrderItem::$rules;
     }
 }

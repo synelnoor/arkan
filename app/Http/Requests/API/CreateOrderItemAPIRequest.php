@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
-use Illuminate\Foundation\Http\FormRequest;
-use App\Models\purchasing;
+use App\Models\OrderItem;
+use InfyOm\Generator\Request\APIRequest;
 
-class CreatepurchasingRequest extends FormRequest
+class CreateOrderItemAPIRequest extends APIRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,6 +24,6 @@ class CreatepurchasingRequest extends FormRequest
      */
     public function rules()
     {
-        return purchasing::$rules;
+        return OrderItem::$rules;
     }
 }

@@ -36,6 +36,8 @@ class OrderItem extends Model
         'harga',
         'harga_beli',
         'jumlah',
+        'toko_id',
+        'kategori_id',
         'subtotal',
         'laba'
     ];

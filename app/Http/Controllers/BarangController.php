@@ -11,6 +11,7 @@ use Flash;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Toko;
 use App\Models\Category;
+use App\Models\Barang;
 
 use Response;
 
@@ -32,6 +33,9 @@ class BarangController extends AppBaseController
      */
     public function index(BarangDataTable $barangDataTable)
     {
+
+        // $barangs = Barang::with('kategori')->with('toko')->get();
+        // dd($barangs);
         return $barangDataTable->render('admin.barangs.index');
     }
 
@@ -46,10 +50,17 @@ class BarangController extends AppBaseController
         $kategori= Category::all();
         $toko = Toko::all();
         $def[''] = 'Please Select';
+        $barcode = count(Barang::whereNull('deleted_at'))+1;
+        $barang = '';
+        $action='create';
+        //dd($barcode);
         return view('admin.barangs.create')
                 ->with('toko',$toko)
                 ->with('kategori',$kategori)
-                ->with('def',$def);
+                ->with('def',$def)
+                ->with('action',$action)
+                ->with('barang',$barang)
+                ->with('barcode',$barcode);
     }
 
     /**
@@ -102,6 +113,8 @@ class BarangController extends AppBaseController
         $barang = $this->barangRepository->findWithoutFail($id);
         $kategori= Category::all();
         $toko = Toko::all();
+        $action= 'edit';
+        $barcode = count(Barang::whereNull('deleted_at'))+1;
 
         if (empty($barang)) {
             Flash::error('Barang not found');
@@ -112,7 +125,9 @@ class BarangController extends AppBaseController
         return view('admin.barangs.edit')
                 ->with('barang', $barang)
                 ->with('toko',$toko)
-                ->with('kategori',$kategori);
+                ->with('kategori',$kategori)
+                ->with('barcode',$barcode)
+                ->with('action',$action);
     }
 
     /**
@@ -126,6 +141,7 @@ class BarangController extends AppBaseController
     public function update($id, UpdateBarangRequest $request)
     {
         $barang = $this->barangRepository->findWithoutFail($id);
+        //dd($request->all());
 
         if (empty($barang)) {
             Flash::error('Barang not found');

@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\purchasing;
+use App\Models\Barang;
 use InfyOm\Generator\Request\APIRequest;
 
-class UpdatepurchasingAPIRequest extends APIRequest
+class CreateBarangAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,6 @@ class UpdatepurchasingAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return purchasing::$rules;
+        return Barang::$rules;
     }
 }

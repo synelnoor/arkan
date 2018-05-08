@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
-use Illuminate\Foundation\Http\FormRequest;
-use App\Models\aja;
+use App\Models\Order;
+use InfyOm\Generator\Request\APIRequest;
 
-class CreateajaRequest extends FormRequest
+class UpdateOrderAPIRequest extends APIRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,6 +24,6 @@ class CreateajaRequest extends FormRequest
      */
     public function rules()
     {
-        return aja::$rules;
+        return Order::$rules;
     }
 }
