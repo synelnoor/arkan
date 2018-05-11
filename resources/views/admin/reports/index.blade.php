@@ -23,6 +23,15 @@
                                 $dt = \Carbon\Carbon::now();
                                 ?>
                                 <div class="form-group col-sm-6">
+                                    {!! Form::label('toko', 'Toko :') !!}    
+                                    <select name="toko_id" class="form-control toko" id="toko_id">
+                                            <option selected disabled>Semua toko</option>
+                                            @foreach($toko as $tokos)
+                                            <option value="{{ $tokos->id }}">{{ $tokos->name }}</option>
+                                            @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-6">
                                     {!! Form::label('tanggal', 'Tanggal:') !!}
                                     {!! Form::date('tanggal', $dt, ['class' => 'form-control']) !!}
                                 </div>
@@ -49,6 +58,15 @@
                                 <?php
                                 $dt = \Carbon\Carbon::now();
                                 ?>
+                                <div class="form-group col-sm-6">
+                                    {!! Form::label('toko', 'Toko :') !!}    
+                                    <select name="toko_id" class="form-control toko" id="toko_id">
+                                            <option selected disabled>Semua toko</option>
+                                            @foreach($toko as $tokos)
+                                            <option value="{{ $tokos->id }}">{{ $tokos->name }}</option>
+                                            @endforeach
+                                    </select>
+                                </div>
                                 <div class="form-group col-sm-8">
                                     <div class="form-group col-sm-4 ">
                                         <label for="start">Dari Tanggal :</label>
@@ -90,6 +108,15 @@
                                 <?php
                                 $dt = \Carbon\Carbon::now();
                                 ?>
+                                <div class="form-group col-sm-6">
+                                    {!! Form::label('toko', 'Toko :') !!}    
+                                    <select name="toko_id" class="form-control toko" id="toko_id">
+                                            <option selected disabled>Semua toko</option>
+                                            @foreach($toko as $tokos)
+                                            <option value="{{ $tokos->id }}">{{ $tokos->name }}</option>
+                                            @endforeach
+                                    </select>
+                                </div>
                                 <div class="form-group col-sm-8">
                                     <div class="form-group col-sm-4 ">
                                         <label for="start">Dari Tanggal :</label>

@@ -15,7 +15,9 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Pembayaran;
 use App\Models\Purchase;
+use App\Models\Toko;
 use Carbon\Carbon;
+
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
 use Barryvdh\DomPDF\Facade;
@@ -40,8 +42,11 @@ class ReportController extends AppBaseController
     public function index(ReportDataTable $reportDataTable)
     {
         $data='';
+        $toko= Toko::all();
+        //dd($toko);
      return $reportDataTable->render('admin.reports.index')
-                ->with('data',$data);
+                ->with('data',$data)
+                ->with('toko',$toko);
       
     }
    
@@ -166,49 +171,158 @@ class ReportController extends AppBaseController
     public function lapHar(Request $request){
         $input = $request->all();
         $tgl= $request->tanggal;
+        $toko = $request->toko_id;
 
-        $lapHar = Order::where('tanggal','=',"$tgl")
-        ->where('status','=','cash')
-        ->with('OrderItem')
-        ->with('Pembayaran')
-        ->get();
-       //dd($lapHar);
-            $data=array( );
-            $totHar=0;
-            $totBar=0;
-            $laba=0;
-            $totLab=0;
-        foreach ($lapHar as $key => $value) {
-            //dd($value->toArray());
-            $data[]=array( 
+            if($toko == 0){
+                    $lapHar = Order::where('tanggal','=',"$tgl")
+                    ->where('status','=','cash')
+                    ->with('OrderItem')
+                    ->with('Pembayaran')
+                    ->get();
+                   
+                        $data=array( );
+                        $totHar=0;
+                        $totBar=0;
+                        $laba=0;
+                        $totLab=0;
+                    foreach ($lapHar as $key => $value) {
+                        
+                        $data[]=array( 
 
-                    'id' =>$value['id'],
-                    'nama_customer' =>$value['nama_customer'], 
-                    'code_order' =>$value['code_order'], 
-                    'jumlah_barang' =>$value['jumlah_barang'], 
-                    'total' =>$value['total'], 
-                    'total_laba'=>$value['total_laba'],
-                    'status' =>$value['status'], 
-                    'tanggal' =>$value['tanggal']
+                                'id' =>$value['id'],
+                                'nama_customer' =>$value['nama_customer'], 
+                                'code_order' =>$value['code_order'], 
+                                'jumlah_barang' =>$value['jumlah_barang'], 
+                                'total' =>$value['total'], 
+                                'total_laba'=>$value['total_laba'],
+                                'status' =>$value['status'], 
+                                'tanggal' =>$value['tanggal']
 
-                );
-            $totBar += $value['jumlah_barang'];
-            $totHar += $value['total'];
-            $totLab += $value['total_laba'];
-            $laba += $value['total_laba'];
-            $totLab=$totHar-$laba;
-        }
+                            );
+                        $totBar += $value['jumlah_barang'];
+                        $totHar += $value['total'];
+                        $totLab += $value['total_laba'];
+                        $laba += $value['total_laba'];
+                        $totLab=$totHar-$laba;
+                    }
 
-   //dd($totLab);
+                    return view('admin.reports.lapHar')
+                            ->with('lapHar',$lapHar)
+                            ->with('data',$data)
+                            ->with('totBar',$totBar)
+                            ->with('totLab',$totLab)
+                            ->with('totHar',$totHar)
+                            ->with('tgl',$tgl);
+            }
+            else
+            {
+            $idto =intval($toko);
+                //dd($idto);
+               $lapHar = Order::where('tanggal','=',"$tgl")
+                    ->where('status','=','cash')
+                    ->whereHas(
+                            'OrderItem', function ($query)use($idto) {
+                                $query->where('toko_id', '=', $idto);
+                            }
+                        )
+                    ->with('OrderItem')
+                    ->with('Pembayaran')
+                    ->get();
+                $test = $lapHar->toArray();
+               //dd($test);
+           
+                    $data=array();
+                    $totHar=0;
+                    $totBar=0;
+                    $laba=0;
+                    $totLab=0;
+                    
+                    foreach ($lapHar as $key => $value) {
+                        $det = $value['OrderItem']
+                            ->where('toko_id','=',$idto);
+                     //order Item detail       
+                            $OrderItem=array( );
+                            $OIjumBar=0;
+                            $OItotHar=0;
+                            $OIlaba=0;
+                            $OItotLab=0;   
+                        foreach ($det as $ky => $ve) {
+                            $OrderItem[]= array(
+                            'id' => $ve['id'],
+                            'order_id' => $ve['order_id'],
+                            'barang_id' => $ve['barang_id'],
+                            'code_barang' => $ve['code_barang'],
+                            'nama_barang' => $ve['nama_barang'],
+                            'qty' => $ve['qty'],
+                            'harga' => $ve['harga'],
+                            'harga_beli' => $ve['harga_beli'],
+                            'subtotal' => $ve['subtotal'],
+                            'laba' => $ve['laba'],
+                            'toko_id' => $ve['toko_id'],
+                            'kategori_id' => $ve['kategori_id']
+                            );
+                            $OIjumBar += $ve['qty'];
+                            $OItotHar += $ve['harga'];
+                            $OIlaba += $ve['laba'];
 
-        // return redirect(route('reports.index'))
-        return view('admin.reports.lapHar')
-                ->with('lapHar',$lapHar)
-                ->with('data',$data)
-                ->with('totBar',$totBar)
-                ->with('totLab',$totLab)
-                ->with('totHar',$totHar)
-                ->with('tgl',$tgl);
+                        }
+
+                    //dd($OrderItem);
+
+                     //Pembayaran
+                           
+                            $pembayaran=array( );
+                            $dat = $value['Pembayaran']->where('order_id',$value['id'])->get();
+                            foreach ($dat as $keey => $vee) {
+                               
+                                $pembayaran= array(
+
+                                    'id' => $vee['id'],
+                                    'order_id' => $vee['order_id'],
+                                    'tanggal' => $vee['tanggal'],
+                                    'tipe_pembayaran' => $vee['tipe_pembayaran'],
+                                    'bayar' => $vee['bayar'],
+                                    'kembalian' => $vee['kembalian'],
+                                    'total' => $vee['total']
+                                
+                                );
+                            }
+
+
+                //Order array
+                        $data[]=array( 
+
+                                'id' =>$value['id'],
+                                'nama_customer' =>$value['nama_customer'], 
+                                'code_order' =>$value['code_order'], 
+                                'jumlah_barang' =>$OIjumBar, 
+                                'total' =>$OItotHar, 
+                                'total_laba'=>$OIlaba,
+                                'status' =>$value['status'], 
+                                'tanggal' =>$value['tanggal'],
+                                'totalSB' =>$value['total'],
+                                'OrderItem' =>$OrderItem,
+                                'Pembayaran'=>$pembayaran
+
+                            );
+                        $totBar += $OIjumBar;
+                        $totHar += $OItotHar;
+                        $laba += $OIlaba;
+                        $totLab=$totHar-$laba;
+                    }
+                $Order = $data;
+               // dd($lapHar);
+                    return view('admin.reports.lapHarTok')
+                            ->with('lapHar',$lapHar)
+                            ->with('Order',$Order)
+                            ->with('data',$data)
+                            ->with('totBar',$totBar)
+                            ->with('totLab',$totLab)
+                            ->with('totHar',$totHar)
+                            ->with('tgl',$tgl);
+            }
+
+      
 
 
     }

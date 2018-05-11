@@ -73,7 +73,7 @@
 <!-- Code Barang Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('code_barang', 'Code Barang:') !!}
-    {!! Form::text('code_barang', null, ['class' => 'form-control code','readonly']) !!}
+    {!! Form::text('code_barang', null, ['class' => 'form-control code']) !!}
 </div>
 
 </div>
@@ -89,46 +89,29 @@
 <script>
     $(document).ready(function(){
         var action = '{!! $action!!}';
-        console.log(action);
+        var to     = {!! @$toko !!};
+       
+       //for edit condition
         var code = $('.form-control.code').val();
-                        console.log(code)
         var parse = code.replace( /\D+/g, '')
-        
+       //
         $('.code').on('change',function(){
             if(action == 'create')
                 {
-
-                        var conbar = {!! @$barcode !!};
-                        console.log('count'+conbar)
-                        var toko = $('.form-control.toko').val();
+                        var conbar      = {!! @$barcode !!};
+                        var toko        = $('.form-control.toko').val();
+                        var realArray   = $.makeArray( to );
+                        $.map(realArray, function( id, val ) {
+                         
+                        if(toko == id.id)
+                            {
+                                
+                                 $('.form-control.code').val(id.code+conbar);
+                                
+                            }
+                       
+                        });
                         
-                        console.log(toko);
-                        if(toko === '1')
-                        {
-                            var kat = $('.form-control.kategori').val();
-                            if(kat === '1'){
-                                console.log('saung');
-                            $('.form-control.code').val('SCA0'+conbar);
-                            }
-                            if(kat === '2'){
-                                console.log('saung');
-                            $('.form-control.code').val('SCI0'+conbar);
-                            }
-                            
-                        }
-                        if(toko ==='2')
-                        {
-                            var kat = $('.form-control.kategori').val();
-                            if(kat === '1'){
-                                console.log('mi');
-                            $('.form-control.code').val('MABA0'+conbar);
-                            }
-                            if(kat === '2'){
-                                console.log('mi');
-                            $('.form-control.code').val('MABI0'+conbar);
-                            }
-                            
-                        }
                 }
 
                 if(action == 'edit')
@@ -136,33 +119,19 @@
                     
                         var toko = $('.form-control.toko').val();
                         
-                        console.log(toko);
-                        if(toko === '1')
-                        {
-                            var kat = $('.form-control.kategori').val();
-                            if(kat === '1'){
-                                console.log('saung');
-                            $('.form-control.code').val('SCA'+parse);
+                        var realArray   = $.makeArray( to );
+                        $.map(realArray, function( id, val ) {
+                         
+                        if(toko == id.id)
+                            {
+                                
+                                 $('.form-control.code').val(id.code+parse);
+                                
                             }
-                            if(kat === '2'){
-                                console.log('saung');
-                            $('.form-control.code').val('SCI'+parse);
-                            }
-                            
-                        }
-                        if(toko ==='2')
-                        {
-                            var kat = $('.form-control.kategori').val();
-                            if(kat === '1'){
-                                console.log('mi');
-                            $('.form-control.code').val('MABA'+parse);
-                            }
-                            if(kat === '2'){
-                                console.log('mi');
-                            $('.form-control.code').val('MABI'+parse);
-                            }
-                            
-                        }
+                       
+                        });
+                        
+                        
                 }
         });
         

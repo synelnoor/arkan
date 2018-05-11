@@ -19,7 +19,9 @@
 @endsection
 
 <div class="container-fluid " style="background-color:#fff;color:#000;height:100px;">
-        <a class="navbar-brand centered" href="{{ url('/') }}"><img src="{{ asset('/img/head.gif')}}" style="max-width:100%; margin-top: 0px; height: 70px; align:center; ">
+        {{--<a class="navbar-brand centered" href="{{ url('/') }}"><img src="{{ asset('/img/head.gif')}}" style="max-width:100%; margin-top: 0px; height: 70px; align:center; ">
+        </a>--}}
+        <a class="navbar-brand centered" href="{{ url('/') }}">SAUNG CISADANE
         </a>
         
 </div>
@@ -50,10 +52,10 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">PROFIL<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="{{url('/sambutan')}}">Sambutan</a></li>
-            <li><a href="{{url('/visimisi')}}">Visi dan Misi</a></li>
-            <li><a href="{{url('/organisasi')}}">Organisasi</a></li>
-            <li><a href="{{url('/pimpinan')}}">Pimpinan</a></li>
+            <li><a href="{{url('#')}}">Sambutan</a></li>
+            <li><a href="{{url('#')}}">Visi dan Misi</a></li>
+            <li><a href="{{url('#si')}}">Organisasi</a></li>
+            <li><a href="{{url('#')}}">Pimpinan</a></li>
             <li><a href="#">SDM</a></li>
           </ul>
         </li>
@@ -61,14 +63,14 @@
          <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">PRODUK<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="{{url('/adminegara')}}">Administrasi Negara</a></li>
-            <li><a href="{{url('/hubinter')}}">Hub Internasional</a></li>
+            <li><a href="{{url('#')}}">Administrasi Negara</a></li>
+            <li><a href="{{url('#')}}">Hub Internasional</a></li>
           </ul>
         </li>
 
 
          
-        <li><a href="{{url('/kontak')}}">KONTAK</a></li>
+        <li><a href="{{url('#')}}">KONTAK</a></li>
 
       </ul><!-- closenavleft -->
      

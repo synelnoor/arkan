@@ -25,7 +25,7 @@ class CreateOrderItemsTable extends Migration
             $table->decimal('subtotal', 11, 2);
             $table->decimal('laba',11,2);
             $table->integer('toko_id')->unsigned();
-            $table->integer('kategori')->unsigned();
+            $table->integer('kategori_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });
