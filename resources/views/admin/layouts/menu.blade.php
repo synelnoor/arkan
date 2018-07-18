@@ -35,3 +35,27 @@
     <a href="{!! route('tokos.index') !!}"><i class="fa fa-edit"></i><span>Tokos</span></a>
 </li>
 
+<li class="{{ Request::is('itemStocks*') ? 'active' : '' }}">
+    <a href="{!! route('itemStocks.index') !!}"><i class="fa fa-edit"></i><span>Item Stocks</span></a>
+</li>
+
+<li class="{{ Request::is('stockIns*') ? 'active' : '' }}">
+    <a href="{!! route('stockIns.index') !!}"><i class="fa fa-edit"></i><span>Stock Ins</span></a>
+</li>
+
+<li class="{{ Request::is('stockOuts*') ? 'active' : '' }}">
+    <a href="{!! route('stockOuts.index') !!}"><i class="fa fa-edit"></i><span>Stock Outs</span></a>
+</li>
+
+<li class="{{ Request::is('detailStockIns*') ? 'active' : '' }}">
+    <a href="{!! route('detailStockIns.index') !!}"><i class="fa fa-edit"></i><span>Detail Stock Ins</span></a>
+</li>
+
+<li class="{{ Request::is('detailStockOuts*') ? 'active' : '' }}">
+    <a href="{!! route('detailStockOuts.index') !!}"><i class="fa fa-edit"></i><span>Detail Stock Outs</span></a>
+</li>
+
+<li class="{{ Request::is('stocks*') ? 'active' : '' }}">
+    <a href="{!! route('stocks.index') !!}"><i class="fa fa-edit"></i><span>Stocks</span></a>
+</li>
+

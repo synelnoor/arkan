@@ -1,12 +1,2 @@
-@extends('layouts.web')
+@extends('layouts.front')
 
-
-
-@section('content')
-
-        @include('includes.slide')
-    
-
-@endsection
-
- 

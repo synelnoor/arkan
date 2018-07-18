@@ -28,4 +28,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    public static $rules = [
+        'name' => 'required',
+        'email' => 'required',
+        'password' => 'required'
+    ];
+
+
+     public function roleUser() {
+        return $this->hasOne('App\RoleUser');
+    }
 }

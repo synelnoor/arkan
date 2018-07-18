@@ -38,6 +38,10 @@ Route::resource('barangs', 'BarangController');
 Route::get('autocomplete',array('as'=>'autocomplete','uses'=>'OrderController@create'));
 Route::get('searchajax',array('as'=>'searchajax','uses'=>'OrderController@autoComplete'));
 
+Route::get('autocompleteStockin',array('as'=>'autocompleteStockin','uses'=>'StockInController@create'));
+Route::get('searchajaxStockin',array('as'=>'searchajaxStockin','uses'=>'StockInController@autoCompleteStockin'));
+
+
 Route::resource('orders', 'OrderController');
 Route::get('barangJson','OrderController@barangAr');
 
@@ -51,6 +55,10 @@ Route::post('excelPJB',['as'=>'reports.lapBulSheet','uses'=>'ReportController@Ex
 Route::post('cekPG','ReportController@lapPG');
 Route::post('excelPG',['as'=>'reports.lapPGSheet','uses'=>'ReportController@ExportExPG']);
 
+
+
+Route::resource('users', 'UserController');
+Route::resource('roles', 'RoleController');
 
 
 Route::resource('pembayarans', 'PembayaranController');
@@ -117,3 +125,15 @@ Route::resource('purchases', 'PurchaseController');
 Route::resource('categories', 'CategoryController');
 
 Route::resource('tokos', 'TokoController');
+
+Route::resource('itemStocks', 'ItemStockController');
+
+Route::resource('stockIns', 'StockInController');
+
+Route::resource('stockOuts', 'StockOutController');
+
+Route::resource('detailStockIns', 'DetailStockInController');
+
+Route::resource('detailStockOuts', 'DetailStockOutController');
+
+Route::resource('stocks', 'StockController');

@@ -73,7 +73,7 @@
 <!-- Code Barang Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('code_barang', 'Code Barang:') !!}
-    {!! Form::text('code_barang', null, ['class' => 'form-control code']) !!}
+    {!! Form::text('code_barang', null, ['class' => 'form-control code','readonly']) !!}
 </div>
 
 </div>

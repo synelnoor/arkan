@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\aja;
+use App\User;
 
-class UpdateajaRequest extends FormRequest
+class CreateUserRequest extends FormRequest
 {
 
     /**
@@ -25,6 +25,6 @@ class UpdateajaRequest extends FormRequest
      */
     public function rules()
     {
-        return aja::$rules;
+        return User::$rules;
     }
 }

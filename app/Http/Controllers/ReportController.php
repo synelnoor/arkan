@@ -262,7 +262,7 @@ class ReportController extends AppBaseController
                             'kategori_id' => $ve['kategori_id']
                             );
                             $OIjumBar += $ve['qty'];
-                            $OItotHar += $ve['harga'];
+                            $OItotHar += $ve['subtotal'];
                             $OIlaba += $ve['laba'];
 
                         }

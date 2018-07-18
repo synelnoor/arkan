@@ -31,14 +31,14 @@
     <![endif]-->
 
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
+<body class="hold-transition login-page" style="background-color: #ccff99;">
+<div class="login-box" >
     <div class="login-logo">
-        <a href="{{ url('/home') }}"><b>Nkri</b>Generator</a>
+        <a href="{{ url('/home') }}"><b>SAUNG</b>cisadane</a>
     </div>
 
     <!-- /.login-logo -->
-    <div class="login-box-body">
+    <div class="login-box-body" style="background-color: #017d78">
         <p class="login-box-msg">Sign in to start your session</p>
 
         <form method="post" action="{{ url('/login') }}">

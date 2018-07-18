@@ -24,3 +24,15 @@ Route::resource('pembayarans', 'PembayaranAPIController');
 Route::resource('purchases', 'PurchaseAPIController');
 Route::resource('categories', 'CategoryAPIController');
 Route::resource('tokos', 'TokoAPIController');
+
+Route::resource('item_stocks', 'ItemStockAPIController');
+
+Route::resource('stock_ins', 'StockInAPIController');
+
+Route::resource('stock_outs', 'StockOutAPIController');
+
+Route::resource('detail_stock_ins', 'DetailStockInAPIController');
+
+Route::resource('detail_stock_outs', 'DetailStockOutAPIController');
+
+Route::resource('stocks', 'StockAPIController');
