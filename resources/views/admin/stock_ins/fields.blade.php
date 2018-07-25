@@ -37,7 +37,7 @@
 <div class="form-group col-sm-12" style="overflow:hidden;">
     <div class="box-body table-responsive no-padding"  >
       <table class="table table-bordered" id="crud_table" border="3">
-            <thead>
+            <thead style="background-color: #017d78;color: #fff;">
                
                 <th>Nama Barang</th>
                 <th>Kode Barang</th>
@@ -55,18 +55,25 @@
              {!! Form::text('row[0][stock_akhir]', null, ['class' => 'form-control stock_akhir search_text ','id'=>'stock_akhir']) !!}
             </td>
             <td  >
-            {!! Form::text('row[0][nama]', null, ['class' => 'form-control nama search_text ','id'=>'nama']) !!}
+            {!! Form::text('row[0][nama]', null, ['class' => 'form-control nama search_text ','id'=>'nama','autocomplete="off"']) !!}
             </td>
             <td>
             {!! Form::text('row[0][kode]',null,['class'=>'form-control kode search_text ','id'=>'kode','readonly']) !!}
             </td>
 
             <td >
-            {!! Form::text('row[0][jml]',null,['class'=>'form-control qty','id'=>'jml'])!!}
+            {!! Form::text('row[0][jml]',null,['class'=>'form-control jml','id'=>'jml' ,'autocomplete="off"'])!!}
             </td>
+
+            @if($action === 'edit')
             <td >
-            {!! Form::date('row[0][tgl]',null,['class'=>'form-control tgl  ','id'=>'tgl'])!!}
+            {!! Form::date('row[0][tgl]',$stockIn->tgl,['class'=>'form-control tgl  ','id'=>'tgl'])!!}
             </td>
+            @else
+             <td >
+            {!! Form::date('row[0][tgl]',$date,['class'=>'form-control tgl  ','id'=>'tgl'])!!}
+            </td>
+            @endif
 
             <td>
             {!! Form::text('row[0][subtotal]',null,['class'=>'form-control subtotal ','id'=>'subtotal','readonly'])!!}
@@ -92,7 +99,7 @@
 <!-- Total Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('total', 'Total:') !!}
-    {!! Form::text('total', null, ['class' => 'form-control']) !!}
+    {!! Form::text('total', null, ['class' => 'form-control total','readonly']) !!}
 </div>
 
 <!-- Submit Field -->
@@ -150,6 +157,8 @@ $listinitems = json_encode(@$data);
                   $this.parents('.trbody').find('.form-control.kode').val(ui.item.kode);
                   $this.parents('.trbody').find('.form-control.id').val(ui.item.id);
                   $this.parents('.trbody').find('.form-control.id_itemstock').val(ui.item.id_itemstock);
+                   $this.parents('.trbody').find('.form-control.stock_awal').val(ui.item.stock_awal);
+                   $this.parents('.trbody').find('.form-control.stock_akhir').val(ui.item.stock_akhir);
                   
                   return false;
                   }
@@ -182,16 +191,16 @@ $listinitems = json_encode(@$data);
             </td>`;
 
        html_code += ` <td>
-            {!! Form::text('row[`+count+`][nama]', null, ['class' => 'form-control nama search_text ','id'=>'nama']) !!}
+            {!! Form::text('row[`+count+`][nama]', null, ['class' => 'form-control nama search_text ','id'=>'nama','autocomplete="off"']) !!}
             </td>`;
        html_code += `<td>
             {!! Form::text('row[`+count+`][kode]',null,['class'=>'form-control kode search_text ','id'=>'kode','readonly']) !!}
             </td>`;
        html_code += `<td >
-            {!! Form::text('row[`+count+`][jml]',null,['class'=>'form-control qty','id'=>'jml'])!!}
+            {!! Form::text('row[`+count+`][jml]',null,['class'=>'form-control jml','id'=>'jml','autocomplete="off"'])!!}
             </td>`;
        html_code += `<td >
-            {!! Form::date('row[`+count+`][tgl]',null,['class'=>'form-control tgl  ','id'=>'tgl'])!!}
+            {!! Form::date('row[`+count+`][tgl]',$date,['class'=>'form-control tgl  ','id'=>'tgl'])!!}
             </td>`;
        
       html_code +=`<td>
@@ -253,27 +262,28 @@ $listinitems = json_encode(@$data);
           var jumlah=0;
         $(this).closest('#crud_table').find('tr.trbody').each(function() {
               var row =$(this);
-              var value = row.find(".form-control.qty").val();
-                  value = !isNaN(parseFloat(value)) && isFinite(value) ? parseInt(value) : 0;
-              var value2 = row.find(".form-control.harga").val();
-              value2 = !isNaN(parseFloat(value2)) && isFinite(value2)  ? parseInt(value2) : 0;
-              var value3 = row.find(".form-control.harga_beli").val();
-              value3 = !isNaN(parseFloat(value3)) && isFinite(value3) ? parseInt(value3):0;
+              var value = row.find(".form-control.jml").val();
+                  value = !isNaN(parseFloat(value)) && isFinite(value) ? parseFloat(value) : 0;
+                  console.log(value);
+              // var value2 = row.find(".form-control.harga").val();
+              // value2 = !isNaN(parseFloat(value2)) && isFinite(value2)  ? parseInt(value2) : 0;
+              // var value3 = row.find(".form-control.harga_beli").val();
+              // value3 = !isNaN(parseFloat(value3)) && isFinite(value3) ? parseInt(value3):0;
               
-              var total = value * value2;
-              var laba = value * value3;
-              console.log(total);
+              // var total = value * value2;
+              // var laba = value * value3;
+              // console.log(total);
               jumlah += value;
               console.log(jumlah);
-              grandTotal += total;
-              grandLaba += laba;
-            $( ".form-control.subtotal",row ).val(total.toFixed(2) );
-            $( ".form-control.laba",row ).val(laba.toFixed(2) );
+              // grandTotal += total;
+              // grandLaba += laba;
+            $( ".form-control.subtotal",row ).val(jumlah.toFixed(1) );
+           
           });
 
-          $(".form-control.jumlah").val(jumlah);
-          $(".form-control.total").val( grandTotal.toFixed(2));
-          $(".form-control.totalLaba").val(grandLaba.toFixed(2));
+          // $(".form-control.jumlah").val(jumlah);
+           $(".form-control.total").val( jumlah.toFixed(1));
+          // $(".form-control.totalLaba").val(grandLaba.toFixed(2));
       }
 
        function additionalTable()
@@ -290,13 +300,13 @@ $listinitems = json_encode(@$data);
             </td>`;
 
        html_code += ` <td>
-            {!! Form::text('row[`+count+`][nama]', null, ['class' => 'form-control nama search_text ','id'=>'nama']) !!}
+            {!! Form::text('row[`+count+`][nama]', null, ['class' => 'form-control nama search_text ','id'=>'nama','autocomplete="off"']) !!}
             </td>`;
        html_code += `<td>
             {!! Form::text('row[`+count+`][kode]',null,['class'=>'form-control kode search_text ','id'=>'kode','readonly']) !!}
             </td>`;
        html_code += `<td >
-            {!! Form::text('row[`+count+`][jml]',null,['class'=>'form-control qty','id'=>'jml'])!!}
+            {!! Form::text('row[`+count+`][jml]',null,['class'=>'form-control qty','id'=>'jml','autocomplete="off"'])!!}
             </td>`;
        html_code += `<td >
             {!! Form::date('row[`+count+`][tgl]',null,['class'=>'form-control tgl  ','id'=>'tgl'])!!}

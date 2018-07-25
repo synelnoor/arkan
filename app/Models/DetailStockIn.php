@@ -104,7 +104,7 @@ class DetailStockIn extends Model
      public function stockin(){
         return $this->belongsTo('App\Models\StockIn','id','id_stockin');
     }
-    public function stockin(){
+    public function ItemStock(){
         return $this->belongsTo('App\Models\ItemStock','id','id_itemstock');
     }
     

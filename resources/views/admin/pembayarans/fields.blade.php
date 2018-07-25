@@ -23,7 +23,7 @@
 <div class="form-group col-sm-12">
     <div class="box-body table-responsive no-padding"  >
       <table class="table table-bordered" id="crud_table" border="3">
-            <thead>
+            <thead style="background-color: #017d78;color: #fff;">
                
                 <th>Nama Barang</th>
                 <th>Kode Barang</th>
@@ -77,7 +77,7 @@
 <!-- Bayar Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('bayar', 'Bayar:') !!}
-    {!! Form::text('bayar', null, ['class' => 'form-control','id'=>'num1']) !!}
+    {!! Form::text('bayar', null, ['class' => 'form-control','id'=>'num1' ,'autocomplete="off"']) !!}
 </div>
 
 <!-- Kembalian Field -->

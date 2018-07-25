@@ -16,7 +16,7 @@ class StockInDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->addColumn('action', 'stock_ins.datatables_actions')
+            ->addColumn('action', 'admin.stock_ins.datatables_actions')
             ->make(true);
     }
 

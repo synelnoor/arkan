@@ -14,15 +14,20 @@ use Response;
 use App\Models\Stock;
 use App\Models\StockIn;
 use Carbon\Carbon;
-
+use App\Repositories\DetailStockInRepository;
+use App\Repositories\StockRepository;
 class StockInController extends AppBaseController
 {
     /** @var  StockInRepository */
     private $stockInRepository;
+    private $detailStockInRepository;
+    private $stockRepository;
 
-    public function __construct(StockInRepository $stockInRepo)
+    public function __construct(StockInRepository $stockInRepo,DetailStockInRepository $detailStockInRepo,StockRepository $stockRepo)
     {
         $this->stockInRepository = $stockInRepo;
+        $this->detailStockInRepository = $detailStockInRepo;
+        $this->stockRepository = $stockRepo;
     }
 
     /**
@@ -64,7 +69,60 @@ class StockInController extends AppBaseController
     {
         $input = $request->all();
 
-        $stockIn = $this->stockInRepository->create($input);
+       // dd($input);
+        $now= Carbon::now();
+
+        
+       $stockIn = $this->stockInRepository->create($input);
+        foreach($request['row'] as $item) {
+            $dataDetailStockIn = array(
+                'id_stockin'=>$stockIn->id,
+                'id_itemstock'=>$item['id_itemstock'],
+                'kode'=>$item['kode'],
+                'nama'=>$item['nama'],
+                'jml' =>$item['jml'],
+                'tgl' =>$item['tgl']
+              
+               
+            );
+             $detailstockIn=$this->detailStockInRepository->create($dataDetailStockIn);
+
+             if($item['tgl'] == $now->format('Y-m-d')){
+                $stock= $this->stockRepository->findWithoutFail($item['id']);
+                $dataStock =array(
+                'id'=>$item['id'],
+                'id_stockin'=>$stockIn->id,
+                'id_detailstockin'=>$detailstockIn->id,
+                'id_itemstock'=>$item['id_itemstock'],
+                'kode'=>$item['kode'],
+                'nama'=>$item['nama'],
+                'jml_in' =>$item['jml'],
+                'tgl' =>$item['tgl'],
+                'stock_awal' =>$item['stock_akhir'],
+                'stock_akhir' =>$item['stock_akhir']+$item['jml'],
+                );
+                 $stock=$this->stockRepository->update($dataStock,$item['id']);
+             }else{
+
+                $dataStock =array(
+               
+                'id_stockin'=>$stockIn->id,
+                'id_detailstockin'=>$detailstockIn->id,
+                'id_itemstock'=>$item['id_itemstock'],
+                'kode'=>$item['kode'],
+                'nama'=>$item['nama'],
+                'jml_in' =>$item['jml'],
+                'tgl' =>$item['tgl'],
+                'stock_awal' =>$item['stock_akhir'],
+                'stock_akhir' =>$item['stock_akhir']+$item['jml'],
+                );
+
+                $stock=$this->stockRepository->create($dataStock);
+             }
+             
+            
+        }
+       
 
         Flash::success('Stock In saved successfully.');
 
@@ -170,7 +228,7 @@ class StockInController extends AppBaseController
         // $query= 'AYAM GORENG';
                 $items=Stock::where('nama','LIKE','%'.$query.'%')
                              ->whereNull('deleted_at')
-                             ->latest()
+                             ->orderBy('tgl', 'desc')
                              ->get();
                 //dd($items);
                 $data=array();

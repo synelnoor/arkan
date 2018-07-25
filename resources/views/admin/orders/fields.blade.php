@@ -41,7 +41,7 @@
 <div class="form-group col-sm-12" style="overflow:hidden;">
     <div class="box-body table-responsive no-padding"  >
       <table class="table table-bordered" id="crud_table" border="3">
-            <thead>
+            <thead style="background-color: #017d78;color: #fff;">
                
                 <th>Nama Barang</th>
                 <th>Kode Barang</th>
@@ -55,13 +55,13 @@
             <td  class="barang_id" style="display: none;">
              {!! Form::text('row[0][id]', null, ['class' => 'form-control id ','id'=>'id']) !!}
             {!! Form::text('row[0][barang_id]', null, ['class' => 'form-control barang_id search_text ','id'=>'barang_id']) !!}</td>
-             <td  class="nama_barang" >{!! Form::text('row[0][nama_barang]', null, ['class' => 'form-control search_text ','id'=>'nama_barang']) !!}</td>
+             <td  class="nama_barang" >{!! Form::text('row[0][nama_barang]', null, ['class' => 'form-control search_text ','id'=>'nama_barang','autocomplete="off"']) !!}</td>
             <td  class="code_barang">
                {!! Form::text('row[0][code_barang]',null,['class'=>'form-control search_text ','id'=>'code_barang','readonly']) !!}
             </td>
             
             <td  class="qty">
-              {!! Form::text('row[0][qty]',null,['class'=>'form-control qty','id'=>'qty'])!!}
+              {!! Form::text('row[0][qty]',null,['class'=>'form-control qty','id'=>'qty','autocomplete="off"'])!!}
             </td>
             <td  class="harga">
               {!! Form::text('row[0][harga]',null,['class'=>'form-control harga  ','id'=>'harga','readonly'])!!}
@@ -229,10 +229,10 @@ $listinitems = json_encode(@$data);
 
       var html_code = "<tr id='row"+count+"' class='trbody'>";
        html_code += "<td ' class='barang_id' style='display:none;'><input type='hidden' name='row["+count+"][id]' class='form-control id'/><input type='text' name='row["+count+"][barang_id]' class='form-control barang_id'/><input type='text' name='row["+count+"][order_id]' class='form-control order_id'/></td>";
-       html_code += "<td ' class='nama_barang'><input type='text' name='row["+count+"][nama_barang]' class='form-control search_text'/> </td>";
+       html_code += "<td ' class='nama_barang'><input type='text' name='row["+count+"][nama_barang]' class='form-control search_text' autocomplete='off'/> </td>";
        html_code += "<td ' class='code_barang'><input type='text' name='row["+count+"][code_barang]' class='form-control' readonly/></td>";
 
-       html_code += "<td ' class='qty' ><input type='text' name='row["+count+"][qty]' class='form-control qty' id='qty'  /></td>";
+       html_code += "<td ' class='qty' ><input type='text' name='row["+count+"][qty]' class='form-control qty' id='qty' autocomplete='off'  /></td>";
        html_code += "<td ' class='harga' ><input type='text' name='row["+count+"][harga]' class='form-control harga search_text' id='harga' readonly/></td>";
        html_code += "<td ' class='harga_beli' style='display:none' ><input type='hidden' name='row["+count+"][harga_beli]' class='form-control harga_beli' id='harga_beli' readonly/></td>";
        html_code += "<td ' class='subtotal' ><input type='text' name='row["+count+"][subtotal]' class='form-control subtotal' id='subtotal' readonly/></td>";
@@ -325,10 +325,10 @@ $listinitems = json_encode(@$data);
       document.getElementById("countdetail").value = count;
         var html_code = "<tr id='row"+count+"' class='trbody'>";
        html_code += "<td ' class='barang_id' style='display:none;'><input type='hidden' name='row["+count+"][id]' class='form-control id'/><input type='text' name='row["+count+"][barang_id]' class='form-control barang_id'/><input type='text' name='row["+count+"][order_id]' class='form-control order_id'/></td>";
-       html_code += "<td ' class='nama_barang'><input type='text' name='row["+count+"][nama_barang]' class='form-control search_text'/> </td>";
+       html_code += "<td ' class='nama_barang'><input type='text' name='row["+count+"][nama_barang]' class='form-control search_text' autocomplete='off'/> </td>";
        html_code += "<td ' class='code_barang' readonly><input type='text' name='row["+count+"][code_barang]' class='form-control' readonly/></td>";
 
-       html_code += "<td ' class='qty' ><input type='text' name='row["+count+"][qty]' class='form-control qty' id='qty'  /></td>";
+       html_code += "<td ' class='qty' ><input type='text' name='row["+count+"][qty]' class='form-control qty' id='qty' autocomplete='off' /></td>";
        html_code += "<td ' class='harga' ><input type='text' name='row["+count+"][harga]' class='form-control harga search_text' id='harga' readonly/></td>";
        html_code += "<td ' class='harga_beli' style='display:none'  ><input type='hidden' name='row["+count+"][harga_beli]' class='form-control harga_beli' id='harga_beli' readonly/></td>";
        html_code += "<td ' class='subtotal' ><input type='text' name='row["+count+"][subtotal]' class='form-control subtotal' id='subtotal' readonly/></td>";
