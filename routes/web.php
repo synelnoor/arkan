@@ -137,3 +137,5 @@ Route::resource('detailStockIns', 'DetailStockInController');
 Route::resource('detailStockOuts', 'DetailStockOutController');
 
 Route::resource('stocks', 'StockController');
+
+Route::resource('logStocks', 'LogStockController');

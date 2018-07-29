@@ -7,11 +7,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @SWG\Definition(
- *      definition="Stock",
+ *      definition="LogStock",
  *      required={""},
  *      @SWG\Property(
  *          property="id",
  *          description="id",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
+ *          property="id_stock",
+ *          description="id_stock",
  *          type="integer",
  *          format="int32"
  *      ),
@@ -34,28 +40,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *          format="date"
  *      ),
  *      @SWG\Property(
- *          property="jml_in",
- *          description="jml_in",
- *          type="number",
- *          format="float"
+ *          property="nama",
+ *          description="nama",
+ *          type="string"
  *      ),
  *      @SWG\Property(
- *          property="jml_out",
- *          description="jml_out",
- *          type="number",
- *          format="float"
- *      ),
- *      @SWG\Property(
- *          property="stock_awal",
- *          description="stock_awal",
- *          type="number",
- *          format="float"
- *      ),
- *      @SWG\Property(
- *          property="stock_akhir",
- *          description="stock_akhir",
- *          type="number",
- *          format="float"
+ *          property="kode",
+ *          description="kode",
+ *          type="string"
  *      ),
  *      @SWG\Property(
  *          property="id_itemstock",
@@ -89,24 +81,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *      )
  * )
  */
-class Stock extends Model
+class LogStock extends Model
 {
     use SoftDeletes;
 
-    public $table = 'stocks';
+    public $table = 'log_stocks';
     
 
     protected $dates = ['deleted_at'];
 
 
     public $fillable = [
+        'id_stock',
         'id_stockin',
         'id_stockout',
-        'nama',
-        'kode',
         'tgl',
         'jml_in',
         'jml_out',
+        'nama',
+        'kode',
         'stock_awal',
         'stock_akhir',
         'id_itemstock',
@@ -120,9 +113,12 @@ class Stock extends Model
      * @var array
      */
     protected $casts = [
+        'id_stock' => 'integer',
         'id_stockin' => 'integer',
         'id_stockout' => 'integer',
         'tgl' => 'date',
+        'nama' => 'string',
+        'kode' => 'string',
         'id_itemstock' => 'integer',
         'id_detailstockin' => 'integer',
         'id_detailstockout' => 'integer'
@@ -136,6 +132,11 @@ class Stock extends Model
     public static $rules = [
         
     ];
+
+    public function stock(){
+        return $this->belongsTo('App\Models\Stock','id_stock','id');
+
+    }
 
     public function itemstock(){
         return $this->belongsTo('App\Models\ItemStock','id_itemstock','id');
@@ -156,8 +157,5 @@ class Stock extends Model
         return $this->belongsTo('App\Models\ItemStock','id_detailstockout','id');
 
    }
-   public function logstock(){
-        return $this->hasMany('App\Models\LogStock');
-
-   }
+    
 }

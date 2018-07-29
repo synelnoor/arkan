@@ -104,5 +104,7 @@ class DetailStockOut extends Model
         
     ];
 
-    
+    public function logstock(){
+        return $this->hasMany('App\Models\LogStock');
+    }
 }

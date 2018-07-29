@@ -107,5 +107,8 @@ class DetailStockIn extends Model
     public function ItemStock(){
         return $this->belongsTo('App\Models\ItemStock','id','id_itemstock');
     }
+    public function logstock(){
+        return $this->hasMany('App\Models\LogStock');
+    }
     
 }

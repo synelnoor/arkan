@@ -13,21 +13,27 @@ use App\Http\Controllers\AppBaseController;
 use Response;
 use App\Models\Stock;
 use App\Models\StockIn;
+use App\Models\DetailStockIn;
+use App\Models\LogStock;
 use Carbon\Carbon;
 use App\Repositories\DetailStockInRepository;
 use App\Repositories\StockRepository;
+use App\Repositories\LogStockRepository;
+
 class StockInController extends AppBaseController
 {
     /** @var  StockInRepository */
     private $stockInRepository;
     private $detailStockInRepository;
     private $stockRepository;
+    private $logStockRepository;
 
-    public function __construct(StockInRepository $stockInRepo,DetailStockInRepository $detailStockInRepo,StockRepository $stockRepo)
+    public function __construct(StockInRepository $stockInRepo,DetailStockInRepository $detailStockInRepo,StockRepository $stockRepo,LogStockRepository $logStockRepo)
     {
         $this->stockInRepository = $stockInRepo;
         $this->detailStockInRepository = $detailStockInRepo;
         $this->stockRepository = $stockRepo;
+        $this->logStockRepository = $logStockRepo;
     }
 
     /**
@@ -119,7 +125,23 @@ class StockInController extends AppBaseController
 
                 $stock=$this->stockRepository->create($dataStock);
              }
-             
+            
+
+             $default =0;
+             $dataLogStock = array(
+                'id_stock' =>$stock->id,
+                'id_stockin'=>$stockIn->id,
+                'id_detailstockin'=>$detailstockIn->id,
+                'id_itemstock'=>$item['id_itemstock'],
+                'kode'=>$item['kode'],
+                'nama'=>$item['nama'],
+                'jml_in' =>$item['jml'],
+                'jml_out' =>$default,
+                'tgl' =>$item['tgl'],
+                'stock_awal' =>$item['stock_akhir'],
+                'stock_akhir' =>$item['stock_akhir']+$item['jml'],
+                 );
+             $LogStock=$this->logStockRepository->create($dataLogStock);
             
         }
        
@@ -159,6 +181,12 @@ class StockInController extends AppBaseController
     public function edit($id)
     {
         $stockIn = $this->stockInRepository->findWithoutFail($id);
+        $detailStockIn = $this->detailStockInRepository->findWhere(['id_stockin'=>11]);
+        //$detailStockIn = DetailStockIn::where('id_stockin',$id)->get();
+
+        $LogStock = $this->logStockRepository->findWhere(['id_stockin' => $id]);
+        $stock = $this->stockRepository->findWhere(['id_stockin' => $id]);
+        //dd($detailStockIn->toArray());
 
         if (empty($stockIn)) {
             Flash::error('Stock In not found');
@@ -167,9 +195,24 @@ class StockInController extends AppBaseController
         }
         $action='edit';
 
+         $data=array();
+        foreach ($detailStockIn as $item) {
+            //dd($item);
+            $data[]=array(
+                        'id' => $item['id'],
+                        'id_stockin'=> $item['id_stockin'],
+                        'id_itemstock' => $item['id_stockin'],
+                        'nama' => $item['nama'],
+                        'kode' => $item['kode'],
+                        'tgl' => $item['tgl'],
+                        'jml' => $item['jml']
+                        );
+        }
+        dd($data);
         return view('admin.stock_ins.edit')
                 ->with('stockIn', $stockIn)
-                ->with('action',$action);
+                ->with('action',$action)
+                ->with('data',$data);
     }
 
     /**

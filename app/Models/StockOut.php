@@ -95,4 +95,8 @@ class StockOut extends Model
      public function detailstockout(){
         return $this->hasMany('App\Models\StockOut');
     }
+    public function logstock(){
+        return $this->hasMany('App\Models\LogStock');
+    }
+
 }

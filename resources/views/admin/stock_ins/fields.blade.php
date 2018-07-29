@@ -6,7 +6,7 @@
 
 
 <!-- Kode Stock Field -->
-@if($action === 'edit')
+@if($action == 'edit')
 <div class="form-group col-sm-6">
     {!! Form::label('kode', 'Kode:') !!}
     {!! Form::text('kode',$stockIn->kode, ['class' => 'form-control','readonly']) !!}
@@ -20,7 +20,7 @@
 
 
 <!-- Tgl Field -->
-@if($action === 'edit')
+@if($action == 'edit')
 <div class="form-group col-sm-6">
     {!! Form::label('tgl', 'Tgl:') !!}
     {!! Form::date('tgl', $stockIn->tgl, ['class' => 'form-control']) !!}
@@ -28,7 +28,7 @@
 @else
 <div class="form-group col-sm-6">
     {!! Form::label('tgl', 'Tgl:') !!}
-    {!! Form::date('tgl', $date, ['class' => 'form-control']) !!}
+    {!! Form::date('tgl', @$date, ['class' => 'form-control']) !!}
 </div>
 @endif
 
@@ -65,7 +65,7 @@
             {!! Form::text('row[0][jml]',null,['class'=>'form-control jml','id'=>'jml' ,'autocomplete="off"'])!!}
             </td>
 
-            @if($action === 'edit')
+            @if($action == 'edit')
             <td >
             {!! Form::date('row[0][tgl]',$stockIn->tgl,['class'=>'form-control tgl  ','id'=>'tgl'])!!}
             </td>
@@ -199,9 +199,15 @@ $listinitems = json_encode(@$data);
        html_code += `<td >
             {!! Form::text('row[`+count+`][jml]',null,['class'=>'form-control jml','id'=>'jml','autocomplete="off"'])!!}
             </td>`;
-       html_code += `<td >
+       html_code += `@if($action == 'edit')
+            <td >
+            {!! Form::date('row[`+count+`][tgl]',$stockIn->tgl,['class'=>'form-control tgl  ','id'=>'tgl'])!!}
+            </td>
+            @else
+             <td >
             {!! Form::date('row[`+count+`][tgl]',$date,['class'=>'form-control tgl  ','id'=>'tgl'])!!}
-            </td>`;
+            </td>
+            @endif`;
        
       html_code +=`<td>
             {!! Form::text('row[`+count+`][subtotal]',null,['class'=>'form-control subtotal ','id'=>'subtotal','readonly'])!!}
