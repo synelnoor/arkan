@@ -2,7 +2,7 @@
     @include('layouts.datatables_css')
 @endsection
 
-{!! $dataTable->table(['width' => '100%']) !!}
+{!! $dataTable->table(['width' => '100%','class'=>'display responsive nowrap']) !!}
 
 @section('scripts')
     @include('layouts.datatables_js')
