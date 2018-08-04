@@ -75,12 +75,14 @@ class StockInController extends AppBaseController
     {
         $input = $request->all();
 
-       // dd($input);
+        //dd($input);
         $now= Carbon::now();
 
         
        $stockIn = $this->stockInRepository->create($input);
+
         foreach($request['row'] as $item) {
+            //DetailStock Store
             $dataDetailStockIn = array(
                 'id_stockin'=>$stockIn->id,
                 'id_itemstock'=>$item['id_itemstock'],
@@ -93,10 +95,10 @@ class StockInController extends AppBaseController
             );
              $detailstockIn=$this->detailStockInRepository->create($dataDetailStockIn);
 
-             if($item['tgl'] == $now->format('Y-m-d')){
-                $stock= $this->stockRepository->findWithoutFail($item['id']);
+             //Stock Store
+                $stock= $this->stockRepository->findWithoutFail($item['id_stock']);
                 $dataStock =array(
-                'id'=>$item['id'],
+                'id'=>$item['id_stock'],
                 'id_stockin'=>$stockIn->id,
                 'id_detailstockin'=>$detailstockIn->id,
                 'id_itemstock'=>$item['id_itemstock'],
@@ -107,26 +109,9 @@ class StockInController extends AppBaseController
                 'stock_awal' =>$item['stock_akhir'],
                 'stock_akhir' =>$item['stock_akhir']+$item['jml'],
                 );
-                 $stock=$this->stockRepository->update($dataStock,$item['id']);
-             }else{
+                 $stock=$this->stockRepository->update($dataStock,$item['id_stock']);
 
-                $dataStock =array(
-               
-                'id_stockin'=>$stockIn->id,
-                'id_detailstockin'=>$detailstockIn->id,
-                'id_itemstock'=>$item['id_itemstock'],
-                'kode'=>$item['kode'],
-                'nama'=>$item['nama'],
-                'jml_in' =>$item['jml'],
-                'tgl' =>$item['tgl'],
-                'stock_awal' =>$item['stock_akhir'],
-                'stock_akhir' =>$item['stock_akhir']+$item['jml'],
-                );
-
-                $stock=$this->stockRepository->create($dataStock);
-             }
-            
-
+            //LogStock
              $default =0;
              $dataLogStock = array(
                 'id_stock' =>$stock->id,
@@ -181,34 +166,40 @@ class StockInController extends AppBaseController
     public function edit($id)
     {
         $stockIn = $this->stockInRepository->findWithoutFail($id);
-        $detailStockIn = $this->detailStockInRepository->findWhere(['id_stockin'=>11]);
-        //$detailStockIn = DetailStockIn::where('id_stockin',$id)->get();
-
-        $LogStock = $this->logStockRepository->findWhere(['id_stockin' => $id]);
-        $stock = $this->stockRepository->findWhere(['id_stockin' => $id]);
-        //dd($detailStockIn->toArray());
+        $detailStockIn = $this->detailStockInRepository->findWhere(['id_stockin'=>$id]);
+    
 
         if (empty($stockIn)) {
             Flash::error('Stock In not found');
 
             return redirect(route('stockIns.index'));
         }
+
         $action='edit';
 
-         $data=array();
+        $data=array();
         foreach ($detailStockIn as $item) {
-            //dd($item);
+
+            $LogStock = $this->logStockRepository->findWhere(['id_detailstockin' =>$item['id'] ]);
+            
             $data[]=array(
+
                         'id' => $item['id'],
                         'id_stockin'=> $item['id_stockin'],
-                        'id_itemstock' => $item['id_stockin'],
+                        'id_itemstock' => $item['id_itemstock'],
                         'nama' => $item['nama'],
                         'kode' => $item['kode'],
-                        'tgl' => $item['tgl'],
-                        'jml' => $item['jml']
+                        'tgl' => $item['tgl']->format('Y-m-d'),
+                        'jml' => $item['jml'],
+
+                        'id_logstock' => $LogStock[0]['id'],
+                        'id_stock' =>$LogStock[0]['id_stock'],
+                        'stock_awal'=>$LogStock[0]['stock_awal'],
+                        'stock_akhir'=>$LogStock[0]['stock_akhir']
+                        
                         );
         }
-        dd($data);
+        
         return view('admin.stock_ins.edit')
                 ->with('stockIn', $stockIn)
                 ->with('action',$action)
@@ -226,6 +217,7 @@ class StockInController extends AppBaseController
     public function update($id, UpdateStockInRequest $request)
     {
         $stockIn = $this->stockInRepository->findWithoutFail($id);
+        //dd($request->all());
 
         if (empty($stockIn)) {
             Flash::error('Stock In not found');
@@ -234,6 +226,119 @@ class StockInController extends AppBaseController
         }
 
         $stockIn = $this->stockInRepository->update($request->all(), $id);
+
+        foreach($request['row'] as $item) {
+            $detailStockIn = $this->detailStockInRepository->findWhere(['id'=>$item['id']]);
+
+            //DetailStock Store
+            $dataDetailStockIn = array(
+                'id_stockin'=>$stockIn->id,
+                'id_itemstock'=>$item['id_itemstock'],
+                'kode'=>$item['kode'],
+                'nama'=>$item['nama'],
+                'jml' =>$item['jml'],
+                'tgl' =>$item['tgl']
+              
+               
+            );
+
+            if($item['id'] == '')
+                {
+                 $detailstockIn=$this->detailStockInRepository->create($dataDetailStockIn);
+                }
+            else
+                {
+                    $detailstockIn=$this->detailStockInRepository->update($dataDetailStockIn,$item['id']);
+                }
+
+            //LogStock
+            $LogStock = $this->logStockRepository->findWhere(['id' =>$item['id_logstock'] ]);
+             $default =0;
+            
+             if($item['id_logstock'] == '')
+                {
+                    $dataLogStock = array(
+                        'id_stock' =>$item['id_stock'],
+                        'id_stockin'=>$stockIn->id,
+                        'id_detailstockin'=>$detailstockIn->id,
+                        'id_itemstock'=>$item['id_itemstock'],
+                        'kode'=>$item['kode'],
+                        'nama'=>$item['nama'],
+                        'jml_in' =>$item['jml'],
+                        'jml_out' =>$default,
+                        'tgl' =>$item['tgl'],
+                        'stock_awal' =>$item['stock_akhir'],
+                        'stock_akhir' =>$item['stock_akhir']+$item['jml'],
+                         );
+
+                    $LogStock=$this->logStockRepository->create($dataLogStock);
+                 }
+            else
+                {   
+                    $dataLogStock = array(
+                        'id_stock' =>$item['id_stock'],
+                        'id_stockin'=>$stockIn->id,
+                        'id_detailstockin'=>$detailstockIn->id,
+                        'id_itemstock'=>$item['id_itemstock'],
+                        'kode'=>$item['kode'],
+                        'nama'=>$item['nama'],
+                        'jml_in' =>$item['jml'],
+                        'jml_out' =>$default,
+                        'tgl' =>$item['tgl'],
+                        'stock_awal' =>$item['stock_awal'],
+                        'stock_akhir' =>$item['stock_akhir']+$item['jml'],
+                         );
+
+                    $LogStock=$this->logStockRepository->update($dataLogStock,$item['id_logstock']); 
+                }
+
+             //Stock Store
+
+                $stock= $this->stockRepository->findWithoutFail($item['id_stock']);
+
+                if($item['id'] == '')
+                {
+
+                    
+                    $dataStock =array(
+                    'id'=>$item['id_stock'],
+                    'id_stockin'=>$stockIn->id,
+                    'id_detailstockin'=>$detailstockIn->id,
+                    'id_itemstock'=>$item['id_itemstock'],
+                    'kode'=>$item['kode'],
+                    'nama'=>$item['nama'],
+                    'jml_in' =>$item['jml'],
+                    'tgl' =>$item['tgl'],
+                    'stock_awal' =>$item['stock_akhir'],
+                    'stock_akhir' =>$item['stock_akhir']+$item['jml'],
+                    );
+                     $stock=$this->stockRepository->update($dataStock,$item['id_stock']);
+                }
+                else{
+
+                    $dataStock =array(
+                    'id'=>$item['id_stock'],
+                    'id_stockin'=>$stock->id_stockin,
+                    'id_detailstockin'=>$stock->id_detailstockin,
+                    'id_itemstock'=>$item['id_itemstock'],
+                    'kode'=>$item['kode'],
+                    'nama'=>$item['nama'],
+                    'jml_in' =>$stock['jml_in'],
+                    'tgl' =>$stock['tgl'],
+                    'stock_awal' =>($stock['stock_awal']-$item['jml'])+$item['jml'],
+                    'stock_akhir' =>($stock['stock_akhir']-$item['jml'])+$item['jml'],
+                    );
+                    
+
+                 $stock=$this->stockRepository->update($dataStock,$item['id_stock']);
+                }
+                
+                 
+         
+            
+        }
+
+ 
 
         Flash::success('Stock In updated successfully.');
 
@@ -251,13 +356,56 @@ class StockInController extends AppBaseController
     {
         $stockIn = $this->stockInRepository->findWithoutFail($id);
 
+
         if (empty($stockIn)) {
             Flash::error('Stock In not found');
 
             return redirect(route('stockIns.index'));
         }
 
-        $this->stockInRepository->delete($id);
+        //$this->stockInRepository->delete($id);
+
+        $detailStockIn = $this->detailStockInRepository->findWhere(['id_stockin'=>$id]);
+        //dd($detailStockIn);
+
+        $this->detailStockInRepository->delete(['id_stockin'=>$id]);
+
+        $LogStock = $this->logStockRepository->findWhere(['id_stockin' =>$id ]);
+        //dd($LogStock);
+        $dataStock = array();
+        foreach ($LogStock as $key => $value) {
+            $stock= $this->stockRepository->findWithoutFail($value['id_stock']);
+            //dd($stock);
+            $Latest = LogStock::where('id_stock',$value['id_stock'])->latest()->get();
+            $Latest = LogStock::where('id_stock',4)->latest()->get();
+            //dd($Latest );
+            if($Latest == '[]'){
+                
+                $dataStock[]=array(
+                            'jml_in' => 0,
+                            'stock_awal' =>$stock['stock_awal']-$value['stock_awal'] ,
+                            'stock_akhir' => $stock['stock_akhir']-$value['stock_akhir']
+                        );
+            }
+            else
+            {
+                
+                $dataStock[]=array(
+                            'jml_in' => $Latest[0]['jml_in'],
+                            'stock_awal' =>$stock['stock_awal']-$value['stock_akhir'] ,
+                            'stock_akhir' => $stock['stock_akhir']-$value['stock_akhir']
+                        );
+            }
+            
+            //dd($dataStock );
+            $stock=$this->stockRepository->update($dataStock,$item['id_stock']);
+        }
+
+
+
+        //$LogStock=$this->logStockRepository->delete(['id_stockin' =>$id ]);
+
+
 
         Flash::success('Stock In deleted successfully.');
 

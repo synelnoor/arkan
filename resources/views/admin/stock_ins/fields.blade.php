@@ -50,6 +50,9 @@
             
             <td  style="display: none;">
             {!! Form::text('row[0][id]', null, ['class' => 'form-control id ','id'=>'id']) !!}
+            {!! Form::text('row[0][id]', null, ['class' => 'form-control id ','id'=>'id']) !!}
+            {!! Form::text('row[0][id_stock]', null, ['class' => 'form-control id_stock ','id_stock'=>'id_stock']) !!}
+            {!! Form::text('row[0][id_logstock]', null, ['class' => 'form-control id_logstock ','id_logstock'=>'id_logstock']) !!}
             {!! Form::text('row[0][id_itemstock]', null, ['class' => 'form-control id_itemstock search_text ','id'=>'id_itemstock']) !!}
             {!! Form::text('row[0][stock_awal]', null, ['class' => 'form-control stock_awal search_text ','id'=>'stock_awal']) !!}
              {!! Form::text('row[0][stock_akhir]', null, ['class' => 'form-control stock_akhir search_text ','id'=>'stock_akhir']) !!}
@@ -138,7 +141,7 @@ $listinitems = json_encode(@$data);
                               return{
                                 value:item.value+","+item.kode,
                                 nama:item.value,
-                                id:item.id,
+                                id_stock:item.id,
                                 id_itemstock:item.id_itemstock,
                                 kode:item.kode,
                                 stock_awal:item.stock_awal,
@@ -155,7 +158,7 @@ $listinitems = json_encode(@$data);
                
                   $this.val(ui.item.nama);
                   $this.parents('.trbody').find('.form-control.kode').val(ui.item.kode);
-                  $this.parents('.trbody').find('.form-control.id').val(ui.item.id);
+                  $this.parents('.trbody').find('.form-control.id_stock').val(ui.item.id_stock);
                   $this.parents('.trbody').find('.form-control.id_itemstock').val(ui.item.id_itemstock);
                    $this.parents('.trbody').find('.form-control.stock_awal').val(ui.item.stock_awal);
                    $this.parents('.trbody').find('.form-control.stock_akhir').val(ui.item.stock_akhir);
@@ -185,6 +188,9 @@ $listinitems = json_encode(@$data);
       var html_code = `<tr id='row`+count+`' class='trbody'>`;
        html_code += `<td  style="display: none;">
             {!! Form::text('row[`+count+`][id]', null, ['class' => 'form-control id ','id'=>'id']) !!}
+            {!! Form::text('row[`+count+`][id]', null, ['class' => 'form-control id ','id'=>'id']) !!}
+            {!! Form::text('row[`+count+`][id_stock]', null, ['class' => 'form-control id_stock ','id_stock'=>'id_stock']) !!}
+            {!! Form::text('row[`+count+`][id_logstock]', null, ['class' => 'form-control id_logstock ','id_logstock'=>'id_logstock']) !!}
             {!! Form::text('row[`+count+`][id_itemstock]', null, ['class' => 'form-control id_itemstock search_text ','id'=>'id_itemstock']) !!}
             {!! Form::text('row[`+count+`][stock_awal]', null, ['class' => 'form-control stock_awal search_text ','id'=>'stock_awal']) !!}
              {!! Form::text('row[`+count+`][stock_akhir]', null, ['class' => 'form-control stock_akhir search_text ','id'=>'stock_akhir']) !!}
@@ -261,35 +267,29 @@ $listinitems = json_encode(@$data);
             {
                 
                 insertDetail();
+                
             }
       function reCalculate() {
           var grandTotal = 0;
           var grandLaba=0;
           var jumlah=0;
+          console.log('cek')
         $(this).closest('#crud_table').find('tr.trbody').each(function() {
               var row =$(this);
               var value = row.find(".form-control.jml").val();
                   value = !isNaN(parseFloat(value)) && isFinite(value) ? parseFloat(value) : 0;
                   console.log(value);
-              // var value2 = row.find(".form-control.harga").val();
-              // value2 = !isNaN(parseFloat(value2)) && isFinite(value2)  ? parseInt(value2) : 0;
-              // var value3 = row.find(".form-control.harga_beli").val();
-              // value3 = !isNaN(parseFloat(value3)) && isFinite(value3) ? parseInt(value3):0;
               
-              // var total = value * value2;
-              // var laba = value * value3;
-              // console.log(total);
               jumlah += value;
               console.log(jumlah);
-              // grandTotal += total;
-              // grandLaba += laba;
+              ;
             $( ".form-control.subtotal",row ).val(jumlah.toFixed(1) );
            
           });
 
-          // $(".form-control.jumlah").val(jumlah);
+        console.log(jumlah);
            $(".form-control.total").val( jumlah.toFixed(1));
-          // $(".form-control.totalLaba").val(grandLaba.toFixed(2));
+          
       }
 
        function additionalTable()
@@ -300,6 +300,8 @@ $listinitems = json_encode(@$data);
          var html_code = `<tr id='row`+count+`' class='trbody'>`;
        html_code += `<td  style="display: none;">
             {!! Form::text('row[`+count+`][id]', null, ['class' => 'form-control id ','id'=>'id']) !!}
+            {!! Form::text('row[`+count+`][id_stock]', null, ['class' => 'form-control id_stock ','id_stock'=>'id_stock']) !!}
+            {!! Form::text('row[`+count+`][id_logstock]', null, ['class' => 'form-control id_logstock ','id_logstock'=>'id_logstock']) !!}
             {!! Form::text('row[`+count+`][id_itemstock]', null, ['class' => 'form-control id_itemstock search_text ','id'=>'id_itemstock']) !!}
             {!! Form::text('row[`+count+`][stock_awal]', null, ['class' => 'form-control stock_awal search_text ','id'=>'stock_awal']) !!}
              {!! Form::text('row[`+count+`][stock_akhir]', null, ['class' => 'form-control stock_akhir search_text ','id'=>'stock_akhir']) !!}
@@ -312,7 +314,7 @@ $listinitems = json_encode(@$data);
             {!! Form::text('row[`+count+`][kode]',null,['class'=>'form-control kode search_text ','id'=>'kode','readonly']) !!}
             </td>`;
        html_code += `<td >
-            {!! Form::text('row[`+count+`][jml]',null,['class'=>'form-control qty','id'=>'jml','autocomplete="off"'])!!}
+            {!! Form::text('row[`+count+`][jml]',null,['class'=>'form-control jml','id'=>'jml','autocomplete="off"'])!!}
             </td>`;
        html_code += `<td >
             {!! Form::date('row[`+count+`][tgl]',null,['class'=>'form-control tgl  ','id'=>'tgl'])!!}
@@ -330,7 +332,7 @@ $listinitems = json_encode(@$data);
     {
         
         details = <?php echo $listinitems; ?>;
-       
+        jml=0;
        
         for (i = 0; i < details.length; i++) {
             if (i>0)
@@ -338,23 +340,27 @@ $listinitems = json_encode(@$data);
                 additionalTable();
             }
             $("input[name='row["+i+"][id]']").val(details[i]['id']);
-            $("input[name='row["+i+"][barang_id]']").val(details[i]['barang_id']);
-            $("input[name='row["+i+"][nama_barang]']").val(details[i]['nama_barang']);
-            $("input[name='row["+i+"][code_barang]']").val(details[i]['code_barang']);
-            $("input[name='row["+i+"][qty]']").val(details[i]['qty']);
-            $("input[name='row["+i+"][harga]']").val(details[i]['harga']);
-            $("input[name='row["+i+"][harga_beli]']").val(details[i]['harga_beli']);
-            $("input[name='row["+i+"][subtotal]']").val(details[i]['subtotal']);
-            $("input[name='row["+i+"][laba]']").val(details[i]['laba']);
-            $("input[name='row["+i+"][toko_id]']").val(details[i]['toko_id']);
-            $("input[name='row["+i+"][kategori_id]']").val(details[i]['kategori_id']);
-            $("input[name='row["+i+"][order_id]']").val(details[i]['order_id']);
-            //$("input[name='row["+i+"][total_individual]']").val(details[i]['unit_price']*details[i]['qty']);
+            $("input[name='row["+i+"][id_stock]']").val(details[i]['id_stock']);
+            $("input[name='row["+i+"][id_logstock]']").val(details[i]['id_logstock']);
+            $("input[name='row["+i+"][id_itemstock]']").val(details[i]['id_itemstock']);
+            $("input[name='row["+i+"][stock_awal]']").val(details[i]['stock_awal']);
+            $("input[name='row["+i+"][stock_akhir]']").val(details[i]['stock_akhir']);
+
+            $("input[name='row["+i+"][nama]']").val(details[i]['nama']);
+            $("input[name='row["+i+"][kode]']").val(details[i]['kode']);
+            $("input[name='row["+i+"][jml]']").val(details[i]['jml']);
+            $("input[name='row["+i+"][tgl]']").val(details[i]['tgl']);
+           
+            //hitung jumlah
+            var val =$("input[name='row["+i+"][jml]']").val();
+                val=!isNaN(parseFloat(val)) && isFinite(val) ? parseFloat(val) : 0;
+           jml += val;
+          $("input[name='row["+i+"][subtotal]']").val(jml);
+            
         }
-
-
+        
+        //Triger
         $('#testbtn').click();
-
 
 
         
