@@ -16,7 +16,7 @@ class StockOutDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->addColumn('action', 'stock_outs.datatables_actions')
+            ->addColumn('action', 'admin.stock_outs.datatables_actions')
             ->make(true);
     }
 

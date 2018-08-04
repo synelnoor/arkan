@@ -30,11 +30,11 @@ class StockController extends AppBaseController
      */
     public function index(StockDataTable $stockDataTable)
     {
-        //return $stockDataTable->render('stocks.index');
-        $stock = Stock::all();
-        dd($stock);
-        return view('admin.stocks.indexs')
-            ->with('stock',$stock);
+        return $stockDataTable->render('admin.stocks.index');
+        //$stock = Stock::all();
+        //dd($stock);
+        // return view('admin.stocks.indexs')
+        //     ->with('stock',$stock);
     }
 
     /**

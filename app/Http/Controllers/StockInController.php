@@ -75,7 +75,6 @@ class StockInController extends AppBaseController
     {
         $input = $request->all();
 
-        //dd($input);
         $now= Carbon::now();
 
         
@@ -363,22 +362,22 @@ class StockInController extends AppBaseController
             return redirect(route('stockIns.index'));
         }
 
-        //$this->stockInRepository->delete($id);
+        $this->stockInRepository->delete($id);
 
         $detailStockIn = $this->detailStockInRepository->findWhere(['id_stockin'=>$id]);
-        //dd($detailStockIn);
-
+        foreach ($detailStockIn as $key => $value) {
         $this->detailStockInRepository->delete(['id_stockin'=>$id]);
+        }
 
         $LogStock = $this->logStockRepository->findWhere(['id_stockin' =>$id ]);
-        //dd($LogStock);
+        
         $dataStock = array();
         foreach ($LogStock as $key => $value) {
             $stock= $this->stockRepository->findWithoutFail($value['id_stock']);
-            //dd($stock);
+            
             $Latest = LogStock::where('id_stock',$value['id_stock'])->latest()->get();
-            $Latest = LogStock::where('id_stock',4)->latest()->get();
-            //dd($Latest );
+            
+            
             if($Latest == '[]'){
                 
                 $dataStock[]=array(
@@ -397,13 +396,11 @@ class StockInController extends AppBaseController
                         );
             }
             
-            //dd($dataStock );
+        
             $stock=$this->stockRepository->update($dataStock,$item['id_stock']);
         }
 
-
-
-        //$LogStock=$this->logStockRepository->delete(['id_stockin' =>$id ]);
+        $LogStock=$this->logStockRepository->delete(['id_stockin' =>$id ]);
 
 
 
@@ -415,13 +412,12 @@ class StockInController extends AppBaseController
 
      public function autoCompleteStockin(Request $request) {
              $query = $request->get('term','');
-                 //dd($query);
-        // $query= 'AYAM GORENG';
+                
                 $items=Stock::where('nama','LIKE','%'.$query.'%')
                              ->whereNull('deleted_at')
                              ->orderBy('tgl', 'desc')
                              ->get();
-                //dd($items);
+                
                 $data=array();
                 foreach ($items as $item) {
                         $data[]=array(
@@ -434,7 +430,7 @@ class StockInController extends AppBaseController
                                 
                                 );
                 }
-                //dd($data);
+                
                 if(count($data))
                      return $data;
                 else
