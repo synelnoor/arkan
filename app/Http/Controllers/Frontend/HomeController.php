@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Barang;
 
 class HomeController extends Controller
 {
@@ -30,7 +31,7 @@ class HomeController extends Controller
             ["name" => "FEATURES", "link" => "features", "active" => false],
             ["name" => "PRICINGS", "link" => "special", "active" => false],
             ["name" => "CLIENTS", "link" => "abouts", "active" => false],
-            ["name" => "Greens fava", "link" => "footer", "active" => false],
+            ["name" => "CONTACT US", "link" => "footer", "active" => false],
         ];
 
         $data['categories'] = [
@@ -53,6 +54,30 @@ class HomeController extends Controller
             ["name" => "Greens fava", "desc" => "Lorem ipsum dolor sit Pellentesque vel enim a", "price" => '12$', 'img' => 'images/p5.jpg'],
             ["name" => "Greens fava", "desc" => "Lorem ipsum dolor sit Pellentesque vel enim a", "price" => '12$', 'img' => 'images/p6.jpg'],
         ];
+
+        $price_m = Barang::where('toko_id', 2)->get();
+        $no = 1;
+        foreach ($price_m as $key => $val) {
+            $data['price_miayam'][ceil(count($price_m) / 2) <= $no ? 0 : 1][]=array(
+                'name' => $val->nama_barang,
+                'price' => $val->harga_jual,
+                'toko' => $val->toko,
+                'kategori'=>$val->kategori
+            );
+            $no++;
+        }
+
+        $no = 1;
+        $price_s = Barang::where('toko_id', 1)->get();
+        foreach ($price_s as $key => $val) {
+            $data['price_saung'][ceil(count($price_s) / 2) <= $no ? 0 : 1][]=array(
+                'name' => $val->nama_barang,
+                'price' => $val->harga_jual,
+                'toko' => $val->toko,
+                'kategori'=>$val->kategori
+            );
+            $no++;
+        }
 
         $data['about_us'] = "Cisadane adalah sebuah restoran yang ber tempat di ...";
         $data['footer']['facebook'] = 'https://www.facebook.com/pages/RM-Lesehan-Saung-Cisadane/594632560606701';

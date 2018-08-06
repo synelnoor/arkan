@@ -66,5 +66,6 @@
 	
 	<script type="text/javascript" src="{{ asset('js/jquery-easing/jquery.easing.1.3.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/wow/wow.min.js') }}"></script>
+	@yield('scripts')
 </body>
 </html>
