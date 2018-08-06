@@ -18,9 +18,10 @@
 
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						  <div class="nav navbar-nav navbar-left">
-								test
-							</div>
+							<ul class="nav navbar-nav navbar-left" >
+								<img src="{{asset('images/HEADERS3.png')}}" style="height:50px;,width:70px;" >
+							</ul>
+						  
 						  <ul class="nav navbar-nav navbar-right">
 							@foreach ($data['header'] as $header)
 								<li class={{ $header['active'] ? "active" : "" }}><a href={{ "#".$header['link'] }}>{{ $header['name'] }}</a></li>
