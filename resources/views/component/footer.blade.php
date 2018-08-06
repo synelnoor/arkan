@@ -16,16 +16,16 @@
 								<div class="col-sm-6">
 									<div class="single_contact text-left">
 										<h5>Veggie </h5>
-										<span>3428 Magnolia Avenue</span> 
-										<span>Hackettstown, NJ 07840</span>
+										<span>{{ $data['footer']['address'] }}</span> 
+										<span>{{ $data['footer']['address'] }}</span>
 									</div>
 								</div>
 								
 								<div class="col-sm-6">
 									<div class="single_contact text-left">
 										<h5>Reservations</h5>
-										<span>reservations@vegggie.com</span> 
-										<span>+48 202-555-0114</span>
+										<span>{{ $data['footer']['email'] }}</span> 
+										<span>{{ $data['footer']['phone'] }}</span>
 									</div>
 								</div>
 							</div>
@@ -81,7 +81,7 @@
 						<div class="single_footer text-right">
 							
 							<div class="footer_socail wow zoomIn" data-wow-duration="1.5s">
-								<a href=""><i class="fa fa-facebook"></i></a>
+								<a href="{{ $data['footer']['facebook'] }}"><i class="fa fa-facebook"></i></a>
 								<a href=""><i class="fa fa-linkedin"></i></a>
 							</div>
 						</div>
