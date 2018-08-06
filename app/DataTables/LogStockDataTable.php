@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
-use App\Models\StockOut;
+use App\Models\LogStock;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 
-class StockOutDataTable extends DataTable
+class LogStockDataTable extends DataTable
 {
 
     /**
@@ -16,7 +16,7 @@ class StockOutDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->addColumn('action', 'admin.stock_outs.datatables_actions')
+            ->addColumn('action', 'log_stocks.datatables_actions')
             ->make(true);
     }
 
@@ -27,9 +27,9 @@ class StockOutDataTable extends DataTable
      */
     public function query()
     {
-        $stockOuts = StockOut::query();
+        $logStocks = LogStock::query();
 
-        return $this->applyScopes($stockOuts);
+        return $this->applyScopes($logStocks);
     }
 
     /**
@@ -72,10 +72,19 @@ class StockOutDataTable extends DataTable
     private function getColumns()
     {
         return [
+            'id_stock' => ['name' => 'id_stock', 'data' => 'id_stock'],
+            'id_stockin' => ['name' => 'id_stockin', 'data' => 'id_stockin'],
+            'id_stockout' => ['name' => 'id_stockout', 'data' => 'id_stockout'],
+            'tgl' => ['name' => 'tgl', 'data' => 'tgl'],
+            'jml_in' => ['name' => 'jml_in', 'data' => 'jml_in'],
+            'jml_out' => ['name' => 'jml_out', 'data' => 'jml_out'],
             'nama' => ['name' => 'nama', 'data' => 'nama'],
             'kode' => ['name' => 'kode', 'data' => 'kode'],
-            'tgl' => ['name' => 'tgl', 'data' => 'tgl'],
-            'total' => ['name' => 'total', 'data' => 'total']
+            'stock_awal' => ['name' => 'stock_awal', 'data' => 'stock_awal'],
+            'stock_akhir' => ['name' => 'stock_akhir', 'data' => 'stock_akhir'],
+            'id_itemstock' => ['name' => 'id_itemstock', 'data' => 'id_itemstock'],
+            'id_detailstockin' => ['name' => 'id_detailstockin', 'data' => 'id_detailstockin'],
+            'id_detailstockout' => ['name' => 'id_detailstockout', 'data' => 'id_detailstockout']
         ];
     }
 
@@ -86,6 +95,6 @@ class StockOutDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'stockOuts';
+        return 'logStocks';
     }
 }

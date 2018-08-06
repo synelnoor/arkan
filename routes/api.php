@@ -36,3 +36,5 @@ Route::resource('detail_stock_ins', 'DetailStockInAPIController');
 Route::resource('detail_stock_outs', 'DetailStockOutAPIController');
 
 Route::resource('stocks', 'StockAPIController');
+
+Route::resource('log_stocks', 'LogStockAPIController');

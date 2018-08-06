@@ -93,7 +93,10 @@ class StockIn extends Model
         return $this->hasMany('App\Models\Stock');
     }
      public function detailstockin(){
-        return $this->hasMany('App\Models\StockIn');
+        return $this->hasMany('App\Models\DetailStockIn');
+    }
+    public function logstock(){
+        return $this->hasMany('App\Models\LogStock');
     }
 
     

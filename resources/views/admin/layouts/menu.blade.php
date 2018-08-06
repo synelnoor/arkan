@@ -59,3 +59,7 @@
     <a href="{!! route('stocks.index') !!}"><i class="fa fa-edit"></i><span>Stocks</span></a>
 </li>
 
+<li class="{{ Request::is('logStocks*') ? 'active' : '' }}">
+    <a href="{!! route('logStocks.index') !!}"><i class="fa fa-edit"></i><span>Log Stocks</span></a>
+</li>
+
