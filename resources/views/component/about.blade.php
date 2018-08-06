@@ -10,7 +10,7 @@
 								<div class="separetor"></div>
 							</div>
 							
-							<p>Nori grape silver beet broccoli kombu beet greens fava bean potato quandong celery. Bunya nuts black-eyed pea prairie turnip leek lentil turnip greens parsnip.</p>
+							<p>{{ $data['about_us'] }}</p>
 							<div class="signature_img text-right">
 								<img src="images/signature.png" alt="" />
 							</div>

@@ -23,12 +23,10 @@
 						</ul>
 						  
 						  <ul class="nav navbar-nav navbar-right">
-							<li class="active"><a href="#home">Home</a></li>
-							<li><a href="#features">FEATURES</a></li>
-							<li><a href="#special">PRICINGS</a></li>
-							<li><a href="#abouts">CLIENTS</a></li>
-							<li><a href="#footer">FAQ</a></li>
-							
+							@foreach ($data['header'] as $header)
+								<li class={{ $header['active'] ? "active" : "" }}><a href={{ "#".$header['link'] }}>{{ $header['name'] }}</a></li>
+							@endforeach
+														
 						  </ul>
 						</div><!-- /.navbar-collapse -->
 					  </div><!-- /.container-fluid -->
